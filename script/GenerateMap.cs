@@ -9,6 +9,8 @@ public class GenerateMap : MonoBehaviour
     public Transform BasePos;
     public float distanceX = 1.01f;
     public float distanceY;
+    public int Rows=10;
+    public int Columns = 10;
 
     // Use this for initialization
     void Start()
@@ -25,12 +27,12 @@ public class GenerateMap : MonoBehaviour
         }
 
         GameObject _mBrickBoot;
-        for (int column = 0; column < 7; column++)
+        for (int column = 0; column < Columns; column++)
         {
-            for (int row = 0; row < 5; row++)
+            for (int row = 0; row < Rows; row++)
             {
                 _mBrickBoot = Instantiate(BrickRoot, transform);
-                _mBrickBoot.transform.SetPositionAndRotation(BasePos.localPosition + new Vector3(row * distanceX, column * distanceY,0),Quaternion.identity);
+                _mBrickBoot.transform.localPosition = BasePos.localPosition + new Vector3(row * distanceX, column * distanceY,0);
             }
         }
 
