@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: SpriteEffect
-  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: 6fa715a4f04b5534e8b4580784b07733, type: 3}
   m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -68,14 +68,20 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - PixelSnap: 0
+    - _Angle: 75
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _DelayTime: 0.2
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EdgeAlphaThreshold: 1
     - _EdgeDampRate: 2
     - _EnableExternalAlpha: 0
     - _Exposure: 1
+    - _Factor: 6.81
+    - _FadeDistanceFar: 40
+    - _FadeDistanceNear: 35
+    - _FlashTime: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -83,25 +89,34 @@ Material:
     - _InnerGlowAlphaSumThreshold: 0.5
     - _InnerGlowLerpRate: 0.8
     - _InnerGlowWidth: 0.1
+    - _LoopInterval: 2
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _OriginAlphaThreshold: 0.2
+    - _OutLightPow: 5
+    - _OutLightStrength: 15
     - _Parallax: 0.02
     - _Rotation: 0
+    - _SampleRange: 7.51
     - _ShowInnerGlow: 0
     - _ShowOutline: 0
+    - _Size: 0.1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
+    - _Width: 0.2
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _AtmoColor: {r: 0.33490568, g: 0.60094345, b: 1, a: 1}
+    - _Color: {r: 0.20456675, g: 0.9150943, b: 0.16834284, a: 1}
     - _EdgeColor: {r: 0.754717, g: 0.19748007, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _InnerGlowColor: {r: 0.8679245, g: 0.012281928, b: 0.012281928, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SampleInterval: {r: 1, g: 1, b: 0, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    - _TexSize: {r: 256, g: 256, b: 0, a: 0}
     - _Tint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
