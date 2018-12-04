@@ -3,19 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OnClick : MonoBehaviour
+public class BrickRoot : MonoBehaviour
 {
 
     // Use this for initialization
     public GameObject equip;
     public GameObject monster;
     public GameObject brick;
+    public TextMesh bloodText;
+    public SpriteRenderer modelIcon;
 
-    public Dictionary<PlayerData.AttrType, int> PlayerAttr;
+    [HideInInspector]
+    public bool IsMonster =false ;
+
 
     void Start()
     {
-        PlayerAttr = GameDataManager.PlayerData.PlayerAttr;
 
     }
 
@@ -25,7 +28,7 @@ public class OnClick : MonoBehaviour
         {
             brick.SetActive(false);
             equip.SetActive(false);
-            monster.SetActive(true);
+            if (IsMonster) monster.SetActive(true);
             return;
         }
 
@@ -52,10 +55,12 @@ public class OnClick : MonoBehaviour
 
     private bool Attack()
     {
-        TextMesh bloodText = monster.transform.Find("blood").GetComponent<TextMesh>();
         int bloodNum = int.Parse(bloodText.text);
-        bloodNum = bloodNum - PlayerAttr[PlayerData.AttrType.attack];
         bloodText.text = bloodNum > 0 ? bloodNum.ToString() : "0";
         if (bloodNum > 0) { return false; } else { return true; }
     }
+
+    
+
+
 }

@@ -12,7 +12,6 @@ public class UI_GamePanel : MonoBehaviour
     public Text AttText;
     public Button BagBtn;
 
-    private Dictionary<PlayerData.AttrType, int> PlayerAttr;
     // Use this for initialization
     void Start()
     {
@@ -30,9 +29,7 @@ public class UI_GamePanel : MonoBehaviour
 
     public void Init()
     {
-        PlayerAttr = GameDataManager.PlayerData.PlayerAttr;
-        bloodText.text = PlayerAttr[PlayerData.AttrType.blood].ToString();
-        AttText.text = PlayerAttr[PlayerData.AttrType.attack].ToString();
+
     }
     // Update is called once per frame
     void Update()

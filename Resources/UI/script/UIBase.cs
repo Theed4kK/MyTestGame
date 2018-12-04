@@ -54,7 +54,7 @@ public class UIBase : MonoBehaviour
         return path;
     }
 
-    public static void SetSpite(Image Image, string fileName)
+    public static void SetImageSpite(Image Image, string fileName)
     {
         Image.sprite = Resources.Load(fileName,typeof(Sprite)) as Sprite;
     }

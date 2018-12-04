@@ -25,7 +25,8 @@ public class UI_BagPanel : MonoBehaviour {
             UI_ListItem = UIBase.InitListItem(ItemObj);
             UI_ListItem.Objs[0].SetActive(true);
             UI_ListItem.Texts[0].text = item.Value.ToString();
-            UIBase.SetSpite(UI_ListItem.Images[0], ItemCfg.GetItemInfo(item.Key).ItemIcon);
+            string Asset = COMMON.ItemIconPath + Cfg_Item.GetCfg(1).AssetName;
+            UIBase.SetImageSpite(UI_ListItem.Images[0], Asset);
         }
         for(int i = 0; i < 100 - ItemIdList.Count; i++)
         {

@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: SpriteEffect
-  m_Shader: {fileID: 4800000, guid: 6fa715a4f04b5534e8b4580784b07733, type: 3}
+  m_Name: SpriteGlow
+  m_Shader: {fileID: 4800000, guid: e3ca607caa48bdc4f85cf27eb6bbfa33, type: 3}
   m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -18,11 +18,11 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _AlphaTex:
+    - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _BumpMap:
+    - _CloudTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -43,10 +43,14 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: eb053bc337cf7fe4fad30a8c0dffb517, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NewTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -58,65 +62,57 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SpecGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Tex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     m_Floats:
-    - PixelSnap: 0
+    - _Alpha: 1
     - _Angle: 75
+    - _AnimTime: 1
+    - _BlurOffset: 1
     - _BumpScale: 1
+    - _Cols: 4
     - _Cutoff: 0.5
     - _DelayTime: 0.2
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _EdgeAlphaThreshold: 1
-    - _EdgeDampRate: 2
-    - _EnableExternalAlpha: 0
-    - _Exposure: 1
-    - _Factor: 6.81
+    - _Factor: 1
+    - _Fade: 0.99
     - _FadeDistanceFar: 40
     - _FadeDistanceNear: 35
+    - _FenceWidth: 30
     - _FlashTime: 1
+    - _FrameCount: 12
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _InnerGlowAccuracy: 2
-    - _InnerGlowAlphaSumThreshold: 0.5
-    - _InnerGlowLerpRate: 0.8
-    - _InnerGlowWidth: 0.1
+    - _InnerRadius: 256
+    - _Interval: 3
     - _LoopInterval: 2
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
-    - _OriginAlphaThreshold: 0.2
-    - _OutLightPow: 5
-    - _OutLightStrength: 15
+    - _OutterRadius: 384
     - _Parallax: 0.02
-    - _Rotation: 0
-    - _SampleRange: 7.51
-    - _ShowInnerGlow: 0
-    - _ShowOutline: 0
-    - _Size: 0.1
+    - _Radius: 0.5
+    - _RoundRadius: 0.1
+    - _Rows: 3
+    - _SampleDistance: 1
+    - _SampleRange: 7
+    - _SampleStrength: 2
+    - _SatIncrement: 0.2
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
+    - _Speed: 100
+    - _SpreadAngle: 180
+    - _SquareWidth: 8
     - _SrcBlend: 1
+    - _StartAngle: 0
     - _UVSec: 0
     - _Width: 0.2
     - _ZWrite: 1
+    - _corner: 0.08
+    - _percent: 1
     m_Colors:
-    - _AtmoColor: {r: 0.33490568, g: 0.60094345, b: 1, a: 1}
-    - _Color: {r: 0.20456675, g: 0.9150943, b: 0.16834284, a: 1}
-    - _EdgeColor: {r: 0.754717, g: 0.19748007, b: 0, a: 1}
+    - _Center: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _Color: {r: 0.745283, g: 0.36209506, b: 0.36209506, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _InnerGlowColor: {r: 0.8679245, g: 0.012281928, b: 0.012281928, a: 1}
-    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _SampleInterval: {r: 1, g: 1, b: 0, a: 0}
-    - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _TexSize: {r: 256, g: 256, b: 0, a: 0}
-    - _Tint: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
