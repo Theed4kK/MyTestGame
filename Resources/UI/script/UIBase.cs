@@ -7,34 +7,44 @@ public class UIBase : MonoBehaviour
     //public GameObject UIGamePanel;
     //public GameObject UIBagPanel;
     public static GameObject UI_GamePanel;
-    public static GameObject UI_BagPanel;
+    public static GameObject UI_BagPanel ;
 
 
     private static Dictionary<string, string> UIObjAndClone = new Dictionary<string, string>();
     public GameObject UIRoot;
-    public static GameObject UI_Root;
+
+    private static GameObject _UIRoot;
 
     private void Awake()
     {
         UI_GamePanel = Resources.Load("UI\\prefab\\UI_GamePanel") as GameObject;
         UI_BagPanel = Resources.Load("UI\\prefab\\UI_BagPanel") as GameObject;
-        UI_Root = UIRoot;
         //UI_GamePanel = UIGamePanel;
         //UI_BagPanel = Resources.Load("UI\\prefab\\UI_BagPanel") as GameObject;
-
+        _UIRoot = UIRoot;
     }
 
-
-    public static void OpenUI(GameObject obj)
+  
+    public static void OpenUI(GameObject uiobj)
     {
-        if (UIObjAndClone.ContainsKey(obj.name))
+        if (UIObjAndClone.ContainsKey(uiobj.name))
         {
-            UI_Root.transform.Find(UIObjAndClone[obj.name]).gameObject.SetActive(true);
+            GameObject obj = _UIRoot.transform.Find(UIObjAndClone[uiobj.name]).gameObject;
+            obj.transform.SetAsLastSibling();
+            obj.SetActive(true);
         }
         else
         {
-            var _obj = Instantiate(obj, UI_Root.transform);
-            UIObjAndClone.Add(obj.name, _obj.name);
+            var _obj = Instantiate(uiobj, _UIRoot.transform);
+            UIObjAndClone.Add(uiobj.name, _obj.name);
+        }
+    }
+
+    public static void CloseUI(GameObject uiobj)
+    {
+        if (UIObjAndClone.ContainsKey(uiobj.name))
+        {
+            _UIRoot.transform.Find(UIObjAndClone[uiobj.name]).gameObject.SetActive(false);
         }
     }
 

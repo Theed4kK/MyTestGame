@@ -10,12 +10,6 @@ public class PlayerData
     public int blood = 3;//血量
 
     //道具信息,ID、数量
-    public Dictionary<int, int> ItemData = new Dictionary<int, int>() {
-        {1,10 },
-        {2,4 },
-        {3,5 },
-        {4,6 },
-        {5,13 },
-    };  
+    public Dictionary<int, int> ItemData = new Dictionary<int, int>();  
 }
 

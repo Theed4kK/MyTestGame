@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class UI_BagPanel : MonoBehaviour {
+public class UI_BagPanel : MonoBehaviour
+{
 
     public GameObject ItemObj;
 
-    private readonly Dictionary<int,int> ItemIdList = GameDataManager.PlayerData.ItemData;
+    private readonly Dictionary<int, int> ItemData = GameDataManager.PlayerData.ItemData;
     private UI_ListItem UI_ListItem;
 
 
@@ -20,15 +19,15 @@ public class UI_BagPanel : MonoBehaviour {
 
     private void SetItemList()
     {
-        foreach (var item in ItemIdList)
+        foreach (var item in ItemData)
         {
             UI_ListItem = UIBase.InitListItem(ItemObj);
             UI_ListItem.Objs[0].SetActive(true);
             UI_ListItem.Texts[0].text = item.Value.ToString();
-            string Asset = COMMON.ItemIconPath + Cfg_Item.GetCfg(1).AssetName;
+            string Asset = COMMON.ItemIconPath + Cfg_Item.GetCfg(item.Key).AssetName;
             UIBase.SetImageSpite(UI_ListItem.Images[0], Asset);
         }
-        for(int i = 0; i < 100 - ItemIdList.Count; i++)
+        for (int i = 0; i < 100 - ItemData.Count; i++)
         {
             UI_ListItem = UIBase.InitListItem(ItemObj);
             UI_ListItem.Objs[0].SetActive(false);

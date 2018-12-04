@@ -42,7 +42,7 @@ public class GenerateMap : MonoBehaviour
             {
                 _mBrickBoot = Instantiate(BrickRootObj, transform);
                 _mBrickBoot.transform.localPosition = BasePos.localPosition + new Vector3(row * distanceX, column * distanceY, 0);
-                _mBrickBoot.GetComponent<BrickRoot>().SetBrickState(BrickRoot.brickState.initial);
+                _mBrickBoot.GetComponent<BrickRoot>().SendMessage("SetBrickState",BrickRoot.BrickState.initial);
                 if(GenMonster(_mBrickBoot)) Debug.LogFormat("第{0}行第{1}列有怪", row, column);
             }
         }

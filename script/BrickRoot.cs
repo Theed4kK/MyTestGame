@@ -17,7 +17,7 @@ public class BrickRoot : MonoBehaviour
     public bool IsMonster =false ;
     public int MonsterId;
 
-    private brickState currentState;
+    private BrickState currentState;
 
 
     void Start()
@@ -29,14 +29,15 @@ public class BrickRoot : MonoBehaviour
     {
         switch (currentState)
         {
-            case brickState.initial:
-                if (IsMonster) SetBrickState(brickState.monster); else SetBrickState(brickState.Empty);
+            case BrickState.initial:
+                if (IsMonster) SetBrickState(BrickState.monster); else SetBrickState(BrickState.Empty);
                 break;
-            case brickState.monster:
+            case BrickState.monster:
                 InteractiveWithNpc();       //与NPC交互（对话、攻击或其他）
                 break;
-            case brickState.equip:
+            case BrickState.equip:
                 //PlayerDataChange.GetItem();
+
                 break;
         }
     }
@@ -47,27 +48,27 @@ public class BrickRoot : MonoBehaviour
     }
 
     //设置砖块显示状态
-    public void SetBrickState(brickState brickState)
+    void SetBrickState(BrickState brickState)
     {
         currentState = brickState;
         switch (brickState)
         {
-            case brickState.initial:
+            case BrickState.initial:
                 brick.SetActive(true);
                 monster.SetActive(false);
                 equip.SetActive(false);
                 break;
-            case brickState.monster:
+            case BrickState.monster:
                 brick.SetActive(false);
                 monster.SetActive(true);
                 equip.SetActive(false);
                 break;
-            case brickState.equip:
+            case BrickState.equip:
                 brick.SetActive(false);
                 monster.SetActive(false);
                 equip.SetActive(true);
                 break;
-            case brickState.Empty:
+            case BrickState.Empty:
                 brick.SetActive(false);
                 monster.SetActive(false);
                 equip.SetActive(false);
@@ -76,7 +77,7 @@ public class BrickRoot : MonoBehaviour
     }
 
     //砖块显示状态
-    public enum brickState
+    public enum BrickState
     {
         initial,    //初始
         monster,    //有怪
