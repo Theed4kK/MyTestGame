@@ -42,7 +42,7 @@ public class GenerateMap : MonoBehaviour
             {
                 _mBrickBoot = Instantiate(BrickRootObj, transform);
                 _mBrickBoot.transform.localPosition = BasePos.localPosition + new Vector3(row * distanceX, column * distanceY, 0);
-                
+                _mBrickBoot.GetComponent<BrickRoot>().SetBrickState(BrickRoot.brickState.initial);
                 if(GenMonster(_mBrickBoot)) Debug.LogFormat("第{0}行第{1}列有怪", row, column);
             }
         }
@@ -69,11 +69,13 @@ public class GenerateMap : MonoBehaviour
             brickRoot.IsMonster = true;
             if (COMMON.RandomIsSuccess(Monster1_pro, Monster_Pro))
             {
+                brickRoot.MonsterId = MonsterId1;
                 string monsterAsset = COMMON.MonsterIconPath + Cfg_NPC.GetCfg(MonsterId1).AssetName;
                 COMMON.SetSprite(modelIcon, monsterAsset);
             }
             else
             {
+                brickRoot.MonsterId = MonsterId2;
                 string monsterAsset = COMMON.MonsterIconPath + Cfg_NPC.GetCfg(MonsterId2).AssetName;
                 COMMON.SetSprite(modelIcon, monsterAsset);
             }

@@ -15,6 +15,9 @@ public class BrickRoot : MonoBehaviour
 
     [HideInInspector]
     public bool IsMonster =false ;
+    public int MonsterId;
+
+    private brickState currentState;
 
 
     void Start()
@@ -24,34 +27,62 @@ public class BrickRoot : MonoBehaviour
 
     private void OnMouseUp()
     {
-        if (brick.activeSelf)
+        switch (currentState)
         {
-            brick.SetActive(false);
-            equip.SetActive(false);
-            if (IsMonster) monster.SetActive(true);
-            return;
-        }
-
-        if (monster.activeSelf)
-        {
-            brick.SetActive(false);
-            bool IsKilled = Attack();
-            equip.SetActive(IsKilled);
-            monster.SetActive(!IsKilled);
-            return;
-        }
-
-        if (equip.activeSelf)
-        {
-            brick.SetActive(false);
-            equip.SetActive(false);
-            monster.SetActive(false);
-            PlayerDataChange.GetItem(1,1);
-            return;
+            case brickState.initial:
+                if (IsMonster) SetBrickState(brickState.monster); else SetBrickState(brickState.Empty);
+                break;
+            case brickState.monster:
+                InteractiveWithNpc();       //与NPC交互（对话、攻击或其他）
+                break;
+            case brickState.equip:
+                //PlayerDataChange.GetItem();
+                break;
         }
     }
 
+    private void InteractiveWithNpc()
+    {
+        throw new NotImplementedException();
+    }
 
+    //设置砖块显示状态
+    public void SetBrickState(brickState brickState)
+    {
+        currentState = brickState;
+        switch (brickState)
+        {
+            case brickState.initial:
+                brick.SetActive(true);
+                monster.SetActive(false);
+                equip.SetActive(false);
+                break;
+            case brickState.monster:
+                brick.SetActive(false);
+                monster.SetActive(true);
+                equip.SetActive(false);
+                break;
+            case brickState.equip:
+                brick.SetActive(false);
+                monster.SetActive(false);
+                equip.SetActive(true);
+                break;
+            case brickState.Empty:
+                brick.SetActive(false);
+                monster.SetActive(false);
+                equip.SetActive(false);
+                break;
+        }
+    }
+
+    //砖块显示状态
+    public enum brickState
+    {
+        initial,    //初始
+        monster,    //有怪
+        equip,      //有装备
+        Empty       //什么都没有
+    }
 
     private bool Attack()
     {
