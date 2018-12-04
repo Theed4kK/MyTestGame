@@ -42,50 +42,12 @@ public class GenerateMap : MonoBehaviour
             {
                 _mBrickBoot = Instantiate(BrickRootObj, transform);
                 _mBrickBoot.transform.localPosition = BasePos.localPosition + new Vector3(row * distanceX, column * distanceY, 0);
-                _mBrickBoot.GetComponent<BrickRoot>().SendMessage("SetBrickState",BrickRoot.BrickState.initial);
-                if(GenMonster(_mBrickBoot)) Debug.LogFormat("第{0}行第{1}列有怪", row, column);
+                _mBrickBoot.GetComponent<BrickRoot>().SendMessage("Init");
+                //_mBrickBoot.GetComponent<BrickRoot>().SendMessage("SetBrickState",BrickRoot.BrickState.initial);
+                //if(GenMonster(_mBrickBoot)) Debug.LogFormat("第{0}行第{1}列有怪", row, column);
             }
         }
     }
-
-
-    //破坏砖块时生成怪物
-    public bool GenMonster(GameObject brickRootObj)
-    {
-        int MonsterId1 = Cfg_Map.GetCfg(CurrentMapId).MonsterId_01;        //怪物1ID
-        int Monster1_pro = Cfg_Map.GetCfg(CurrentMapId).MonsterWeight_01;  //怪物1出现权重
-        int MonsterId2 = Cfg_Map.GetCfg(CurrentMapId).MonsterId_02;        //怪物2ID
-        int Monster2_pro = Cfg_Map.GetCfg(CurrentMapId).MonsterWeight_02;  //怪物2出现权重
-        int Monster_Pro = Monster1_pro + Monster2_pro;              //权重总和
-        int MaxGenMonNum = Cfg_Map.GetCfg(CurrentMapId).MaxMonsterNum;     //最大生成怪物数量
-
-        BrickRoot brickRoot = brickRootObj.GetComponent<BrickRoot>();
-        SpriteRenderer modelIcon = brickRoot.modelIcon;
-
-        //如果已生成怪物数量未达到地图最大怪物数量且本次生成概率判断通过
-        if (GenerateMap.AlreadyGenNum < MaxGenMonNum && COMMON.RandomIsSuccess(COMMON.GenMonsterPro, 10000))
-        {
-            GenerateMap.AlreadyGenNum += 1;
-            brickRoot.IsMonster = true;
-            if (COMMON.RandomIsSuccess(Monster1_pro, Monster_Pro))
-            {
-                brickRoot.MonsterId = MonsterId1;
-                string monsterAsset = COMMON.MonsterIconPath + Cfg_NPC.GetCfg(MonsterId1).AssetName;
-                COMMON.SetSprite(modelIcon, monsterAsset);
-            }
-            else
-            {
-                brickRoot.MonsterId = MonsterId2;
-                string monsterAsset = COMMON.MonsterIconPath + Cfg_NPC.GetCfg(MonsterId2).AssetName;
-                COMMON.SetSprite(modelIcon, monsterAsset);
-            }
-            return true;
-        }
-        return false;
-
-    }
-
-
 
 
 }

@@ -12,7 +12,7 @@ public class UI_StartPanel : MonoBehaviour
     {
         StartBtn.onClick.AddListener(delegate (){
             UIBase.OpenUI(UIBase.UI_GamePanel);
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
 
         });
     }

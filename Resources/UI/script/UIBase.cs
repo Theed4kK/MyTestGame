@@ -7,7 +7,7 @@ public class UIBase : MonoBehaviour
     //public GameObject UIGamePanel;
     //public GameObject UIBagPanel;
     public static GameObject UI_GamePanel;
-    public static GameObject UI_BagPanel ;
+    public static GameObject UI_BagPanel;
 
 
     private static Dictionary<string, string> UIObjAndClone = new Dictionary<string, string>();
@@ -24,7 +24,7 @@ public class UIBase : MonoBehaviour
         _UIRoot = UIRoot;
     }
 
-  
+
     public static void OpenUI(GameObject uiobj)
     {
         if (UIObjAndClone.ContainsKey(uiobj.name))
@@ -66,7 +66,7 @@ public class UIBase : MonoBehaviour
 
     public static void SetImageSpite(Image Image, string fileName)
     {
-        Image.sprite = Resources.Load(fileName,typeof(Sprite)) as Sprite;
+        Image.sprite = Resources.Load(fileName, typeof(Sprite)) as Sprite;
     }
 
     public static UI_ListItem InitListItem(GameObject itemObj)
