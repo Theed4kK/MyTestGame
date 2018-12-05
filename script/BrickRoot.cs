@@ -11,10 +11,38 @@ public class BrickRoot : MonoBehaviour
     public GameObject monster;
     public GameObject brick;
     public TextMesh bloodText;
+    public TextMesh attackText;
     public SpriteRenderer modelIcon;
 
     private Cfg_NPC NPC_Info;       //本砖块的怪物配置
-    private int MonsterCurrentBlood;    //本砖块怪物的当前血量
+    int currentMonsterId;
+    int monsterCurrentBlood;    //本砖块怪物的当前血量
+    int MonsterCurrentBlood
+    {
+        get { return monsterCurrentBlood; }
+        set
+        {
+            if (value <= 0) monster.SetActive(false);
+            if (monsterCurrentBlood != value)
+            {
+                bloodText.text = value.ToString();
+            }
+            monsterCurrentBlood = value;
+        }
+    }
+    int monsterCurrentAttack;
+    int MonsterCurrentAttack    //本砖块怪物的当前血量
+    {
+        get { return monsterCurrentAttack; }
+        set
+        {
+            if (monsterCurrentAttack != value)
+            {
+                attackText.text = value.ToString();
+            }
+            monsterCurrentAttack = value;
+        }
+    }
 
     private BrickState currentState;    //砖块当前显示状态
 
@@ -51,7 +79,6 @@ public class BrickRoot : MonoBehaviour
                 break;
             case 2:
                 AttackMonster();
-                RefreshMonsterInfo();
                 break;
         }
     }
@@ -102,24 +129,25 @@ public class BrickRoot : MonoBehaviour
         Empty       //什么都没有
     }
 
-    bool AttackMonster()
+    void AttackMonster()
     {
-        int bloodNum = NPC_Info.Blood;
-        bloodText.text = bloodNum > 0 ? bloodNum.ToString() : "0";
-        if (bloodNum > 0) { return false; } else { return true; }
+        PlayerData playerData = GameDataManager.PlayerData;
+        MonsterCurrentBlood -= playerData.Attack;
+        playerData.Blood -= MonsterCurrentAttack;
+
     }
 
-    //破坏砖块时生成怪物
+    //砖块生成怪物
     bool GenMonster()
     {
-        int MonsterId1 = Cfg_Map.GetCfg(GenerateMap.CurrentMapId).MonsterId_01;        //怪物1ID
-        int Monster1_pro = Cfg_Map.GetCfg(GenerateMap.CurrentMapId).MonsterWeight_01;  //怪物1出现权重
-        int MonsterId2 = Cfg_Map.GetCfg(GenerateMap.CurrentMapId).MonsterId_02;        //怪物2ID
-        int Monster2_pro = Cfg_Map.GetCfg(GenerateMap.CurrentMapId).MonsterWeight_02;  //怪物2出现权重
+        Cfg_Map MapCfg = Cfg_Map.GetCfg(GenerateMap.CurrentMapId);
+        int MonsterId1 = MapCfg.MonsterId_01;        //怪物1ID
+        int Monster1_pro = MapCfg.MonsterWeight_01;  //怪物1出现权重
+        int MonsterId2 = MapCfg.MonsterId_02;        //怪物2ID
+        int Monster2_pro = MapCfg.MonsterWeight_02;  //怪物2出现权重
         int Monster_Pro = Monster1_pro + Monster2_pro;              //权重总和
-        int MaxGenMonNum = Cfg_Map.GetCfg(GenerateMap.CurrentMapId).MaxMonsterNum;     //最大生成怪物数量
+        int MaxGenMonNum = MapCfg.MaxMonsterNum;     //最大生成怪物数量
 
-        int currentMonsterId;
         //如果已生成怪物数量未达到地图最大怪物数量且本次生成概率判断通过
         if (GenerateMap.AlreadyGenNum < MaxGenMonNum && COMMON.RandomIsSuccess(COMMON.GenMonsterPro, 10000))
         {
@@ -139,9 +167,10 @@ public class BrickRoot : MonoBehaviour
             string monsterAsset = COMMON.MonsterIconPath + NPC_Info.AssetName;
             COMMON.SetSprite(modelIcon, monsterAsset);
             modelIcon.material = COMMON.spriteMaterials[NPC_Info.Color];
-            //设置怪物血量
+            //设置怪物血量和攻击
             bloodText.text = NPC_Info.Blood.ToString();
             MonsterCurrentBlood = NPC_Info.Blood;
+            MonsterCurrentAttack = NPC_Info.Attack;
             return true;
         }
         return false;

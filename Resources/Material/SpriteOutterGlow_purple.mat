@@ -90,7 +90,7 @@ Material:
     - _EdgeDampRate: 2
     - _EnableExternalAlpha: 0
     - _Exposure: 1
-    - _Factor: 6.81
+    - _Factor: 5.8
     - _Fade: 0.99
     - _FadeDistanceFar: 40
     - _FadeDistanceNear: 35
@@ -116,7 +116,7 @@ Material:
     - _Radius: 0.5
     - _Rotation: 0
     - _SampleDistance: 1
-    - _SampleRange: 7.51
+    - _SampleRange: 3.72
     - _SampleStrength: 2
     - _ShowInnerGlow: 0
     - _ShowOutline: 0

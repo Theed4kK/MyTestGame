@@ -7,7 +7,8 @@ public class UI_BagPanel : MonoBehaviour
 
     public GameObject ItemObj;
 
-    private readonly Dictionary<int, int> ItemData = GameDataManager.PlayerData.ItemData;
+    private readonly List<item> ItemData = GameDataManager.PlayerData.ItemData;
+    //private Itemdatas Itemdatas = GameDataManager.PlayerData.ItemDatas;
     private UI_ListItem UI_ListItem;
 
 
@@ -23,8 +24,8 @@ public class UI_BagPanel : MonoBehaviour
         {
             UI_ListItem = UIBase.InitListItem(ItemObj);
             UI_ListItem.Objs[0].SetActive(true);
-            UI_ListItem.Texts[0].text = item.Value.ToString();
-            string Asset = COMMON.ItemIconPath + Cfg_Item.GetCfg(item.Key).AssetName;
+            UI_ListItem.Texts[0].text = item.itemNum.ToString();
+            string Asset = COMMON.ItemIconPath + Cfg_Item.GetCfg(item.itemId).AssetName;
             UIBase.SetImageSpite(UI_ListItem.Images[0], Asset);
         }
         for (int i = 0; i < 100 - ItemData.Count; i++)

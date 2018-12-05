@@ -1,39 +1,43 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Security.Cryptography;
-using System.Text;
-using System.Xml;
-using System.Xml.Serialization;
 using UnityEngine;
 
 public class GameDataManager : MonoBehaviour
 {
-    public int PlayerId = 1;
+    public static int currentPlayerId = 1;
     private string Path;
-    private readonly string FileName = "GameData";
+    private string fileName = "GameData";
+    private string FileName
+    {
+        get { return fileName + String.Format("{0:D3}", currentPlayerId); ; }
+    }
     private readonly bool isEncryption = false;
-    private Dictionary<int, PlayerData> AllPlayerData = new Dictionary<int, PlayerData>();
     public static PlayerData PlayerData = new PlayerData(); //当前使用的游戏数据
     public PlayerDataSave PlayerDataSave = new PlayerDataSave();
 
     private void Awake()
     {
+
         Path = Application.persistentDataPath + "/save/";
-        //Save(Path);
         Load();
-        if(AllPlayerData.Count != 0) { PlayerData = AllPlayerData[1]; }
-        
+    }
+
+    private void Start()
+    {
+        Timer timer = Timer.CreateTimer();
+        timer.StartTiming(60, Save, true);
     }
 
     public void SwitchPlayer(int TargetId)
     {
-        PlayerData = AllPlayerData[TargetId];
+        Save();
+        currentPlayerId = TargetId;
+        Load();
     }
 
     public void Save()
     {
-        string s = PlayerDataSave.SerializeObject(AllPlayerData, typeof(Dictionary<int, PlayerData>));
+        PlayerPrefs.SetInt("currentPlayerId", currentPlayerId);
+        string s = PlayerDataSave.SerializeObject(PlayerData, typeof(PlayerData));
         //创建XML文件且写入数据  
         PlayerDataSave.CreateTextFile(Path, FileName, s, isEncryption);
         Debug.Log("保存游戏数据到" + Path + FileName);
@@ -43,17 +47,14 @@ public class GameDataManager : MonoBehaviour
     {
         try
         {
+            currentPlayerId = PlayerPrefs.GetInt("currentPlayerId", 1);
             string strTemp = PlayerDataSave.LoadTextFile(Path + FileName, isEncryption);
             //反序列化对象  
-            AllPlayerData = PlayerDataSave.DeserializeObject(strTemp, typeof(Dictionary<int, PlayerData>)) as Dictionary<int, PlayerData>;
+            PlayerData = PlayerDataSave.DeserializeObject(strTemp, typeof(PlayerData)) as PlayerData;
         }
         catch
         {
-            Debug.Log("系统读取XML出现错误，请检查");
+            Debug.Log("读取存档错误，请检查！");
         }
     }
-
-
-
-
 }

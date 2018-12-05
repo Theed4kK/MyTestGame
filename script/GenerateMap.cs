@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public delegate void MapChanged(int mapId);
 public class GenerateMap : MonoBehaviour
 {
     public GameObject BrickRootObj;
@@ -16,7 +17,18 @@ public class GenerateMap : MonoBehaviour
 
 
     public static int AlreadyGenNum;    //当前地图已生成的怪物数量
-    public static int CurrentMapId;     //当前地图ID
+
+    public static event MapChanged OnMapChanged;
+    private static int currentMapId; //当前地图ID
+    public static int CurrentMapId
+    {
+        get { return currentMapId; }
+        set
+        {
+            if(currentMapId != value) { OnMapChanged(value); }
+            currentMapId = value;
+        }
+    }    
 
     void Start()
     {
@@ -43,8 +55,6 @@ public class GenerateMap : MonoBehaviour
                 _mBrickBoot = Instantiate(BrickRootObj, transform);
                 _mBrickBoot.transform.localPosition = BasePos.localPosition + new Vector3(row * distanceX, column * distanceY, 0);
                 _mBrickBoot.GetComponent<BrickRoot>().SendMessage("Init");
-                //_mBrickBoot.GetComponent<BrickRoot>().SendMessage("SetBrickState",BrickRoot.BrickState.initial);
-                //if(GenMonster(_mBrickBoot)) Debug.LogFormat("第{0}行第{1}列有怪", row, column);
             }
         }
     }

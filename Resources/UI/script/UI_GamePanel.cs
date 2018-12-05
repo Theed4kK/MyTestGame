@@ -20,10 +20,11 @@ public class UI_GamePanel : MonoBehaviour
     public Button BagBtn;
     public Button NextDgnBtn;
 
+    private PlayerData PlayerData;
+
     // Use this for initialization
     void Start()
     {
-
         Init();
 
         //背包按钮事件（打开背包界面）
@@ -38,31 +39,29 @@ public class UI_GamePanel : MonoBehaviour
 
     void GoNextMap()
     {
-        SetMapNameText();
-        int NextMapId = Cfg_Map.GetCfg(GenerateMap.CurrentMapId).NextMap;
-        
+        GenerateMap.CurrentMapId = Cfg_Map.GetCfg(GenerateMap.CurrentMapId).NextMap;
     }
 
-    void SetMapNameText()
+    void SetMapNameText(int mapId)
     {
-        if (GenerateMap.CurrentMapId == 0) return;
-        MapNameText.text = Cfg_Map.GetCfg(GenerateMap.CurrentMapId).Name;
+        if (mapId == 0) return;
+        MapNameText.text = Cfg_Map.GetCfg(mapId).Name;
     }
-    void SetLevelText()
+    void SetLevelText(int level)
     {
         LevelText.text = "Lv."+ GameDataManager.PlayerData.Level.ToString();
     }
-    void SetPlayerAttrText()
+    void SetPlayerAttrText(int attack,int blood)
     {
-        AttText.text = GameDataManager.PlayerData.attack.ToString();
-        bloodText.text = GameDataManager.PlayerData.blood.ToString();
+        AttText.text = attack.ToString();
+        bloodText.text = blood.ToString();
     }
 
     public void Init()
     {
-        SetMapNameText();
-        SetLevelText();
-        SetPlayerAttrText();
+        PlayerData = GameDataManager.PlayerData;
+        GenerateMap.OnMapChanged += SetMapNameText;
+        PlayerData.OnLevelChanged += SetLevelText;
 
     }
 

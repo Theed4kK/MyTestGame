@@ -4,16 +4,17 @@ using System.Collections;
 
 public static class PlayerDataChange
 {
-    public static void GetItem(int itemId,int itemNum)
+    public static void GetItem(int itemId, int itemNum)
     {
-        Dictionary<int, int> itemData = GameDataManager.PlayerData.ItemData;
-        if (itemData.ContainsKey(itemId))
+        List<item> itemData = GameDataManager.PlayerData.ItemData;
+        try
         {
-            itemData[itemId] = itemData[itemId] + itemNum;
+            item item= itemData.Find(c => c.itemId == itemId);
+            item.itemNum += itemNum;
         }
-        else
+        catch
         {
-            itemData.Add(itemId, itemNum);
+            itemData.Add(new item() { itemId = itemId, itemNum = itemNum });
         }
     }
 }
