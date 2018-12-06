@@ -17,20 +17,34 @@ public class GenerateMap : MonoBehaviour
 
     public static int AlreadyGenNum;    //当前地图已生成的怪物数量
 
-   private static int currentMapId = 0; //当前地图ID
+    private static int currentMapId = 0;
+    /// <summary>
+    /// 当前地图ID,为0时自动退出地图
+    /// </summary>
     public static int CurrentMapId
     {
         get { return currentMapId; }
         set
         {
-            if (currentMapId != value) currentMapId = value;  GameEvent._OnMapChanged(value); 
+            if (currentMapId != value)
+            {
+                currentMapId = value;
+                if(value == 0) { GameEvent._OnExitMap();return; }
+                GameEvent._OnMapChanged(value);
+            }
         }
     }
 
     void Awake()
     {
-        if(CurrentMapId == 0) { transform.parent.gameObject.SetActive(false); }
+        if (CurrentMapId == 0) { ExitMap(); }
         GameEvent.OnMapChanged += GenMap;
+        GameEvent.OnExitMap += ExitMap;
+    }
+
+    void ExitMap()
+    {
+        transform.parent.gameObject.SetActive(false);
     }
 
     public void GenMap(int MapId)

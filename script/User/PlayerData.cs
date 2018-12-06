@@ -9,6 +9,7 @@ public class PlayerData
     public PlayerData()
     {
         GameEvent.OnLevelChanged += ChangePlayerAttrOfLevel;
+        if (Level == 0) Level = 1;
     }
 
     private int level = 0;//等级
@@ -16,24 +17,23 @@ public class PlayerData
     {
         get
         {
-            if (level == 0)
-            {
-                GameEvent._OnLevelChanged(1);
-                level = 1;
-            }
             return level;
         }
         set
         {
-            if (level != value) level = value; GameEvent._OnLevelChanged(value);
+            if (level != value)
+            {
+                level = value;
+                GameEvent._OnLevelChanged(value);
+            }
         }
     }
 
     private void ChangePlayerAttrOfLevel(int level)
     {
         Cfg_Level levelCfg = Cfg_Level.GetCfg(level);
-        attr.Attack += levelCfg.AddAttack;
-        attr.Blood += levelCfg.AddBlood;
+        Attr.Attack += levelCfg.AddAttack;
+        Attr.Blood += levelCfg.AddBlood;
     }
 
 
@@ -44,7 +44,11 @@ public class PlayerData
         get { return exp; }
         set
         {
-            if (exp != value) exp = value; GameEvent._OnExpChanged(value);
+            if (exp != value)
+            {
+                exp = value;
+                GameEvent._OnExpChanged(value);
+            }
         }
     }
 
@@ -99,5 +103,25 @@ public class Item
 
 public class PlayerAttr
 {
-    public int Attack = 0, Defense = 0, Blood = 0;
+    private int attack = 0;
+    public int Attack
+    {
+        get { return attack; }
+        set { if (attack != value) { attack = value; } GameEvent._OnAttrChanged(this); }
+    }
+    private int defense = 0;
+    public int Defense
+    {
+        get { return defense; }
+        set { if (defense != value) { defense = value; } GameEvent._OnAttrChanged(this); }
+    }
+    private int blood;
+    public int Blood
+    {
+        get { return blood; }
+        set { if (blood != value) { blood = value; } GameEvent._OnAttrChanged(this); }
+    }
+
+
+
 }

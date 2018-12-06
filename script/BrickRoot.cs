@@ -114,10 +114,10 @@ public class BrickRoot : MonoBehaviour
     //砖块显示状态
     public enum BrickState
     {
-        initial,    //初始
-        monster,    //有怪
-        equip,      //有装备
-        Empty       //什么都没有
+        initial,    ///初始
+        monster,    ///有怪
+        equip,      ///有装备
+        Empty       ///什么都没有
     }
 
     void AttackMonster()
@@ -125,6 +125,11 @@ public class BrickRoot : MonoBehaviour
         PlayerData playerData = GameDataManager.PlayerData;
         MonsterCurrentBlood -= playerData.Attr.Attack;
         playerData.Attr.Blood -= MonsterCurrentAttack;
+        if(playerData.Attr.Blood <=0)
+        {
+            playerData.Attr.Blood = 0;
+            GenerateMap.CurrentMapId = 0;
+        }
 
     }
 

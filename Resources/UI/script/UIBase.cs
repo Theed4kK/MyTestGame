@@ -22,7 +22,6 @@ public class UIBase : MonoBehaviour
         _UIRoot = UIRoot;
     }
 
-
     public static void OpenUI(GameObject uiobj)
     {
         if (UIObjAndClone.ContainsKey(uiobj.name))
@@ -38,6 +37,11 @@ public class UIBase : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// 关闭界面
+    /// </summary>
+    /// <param name="uiobj">要关闭的界面</param>
     public static void CloseUI(GameObject uiobj)
     {
         if (UIObjAndClone.ContainsKey(uiobj.name))
@@ -62,6 +66,11 @@ public class UIBase : MonoBehaviour
         return path;
     }
 
+    /// <summary>
+    /// 设置UI图片
+    /// </summary>
+    /// <param name="Image">要设置的图片</param>
+    /// <param name="fileName">要设置的图片名</param>
     public static void SetImageSpite(Image Image, string fileName)
     {
         Image.sprite = Resources.Load(fileName, typeof(Sprite)) as Sprite;

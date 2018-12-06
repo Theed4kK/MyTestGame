@@ -12,7 +12,7 @@ public class UI_StartPanel : MonoBehaviour
     {
         StartBtn.onClick.AddListener(delegate (){
             UIBase.OpenUI(UIBase.UI_GamePanel);
-            UIBase.CloseUI(gameObject);
+            UIBase.CloseUI(uiobj:gameObject);
             GenerateMap.CurrentMapId = 100;
         });
     }
