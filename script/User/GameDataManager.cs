@@ -18,11 +18,11 @@ public class GameDataManager : MonoBehaviour
     {
 
         Path = Application.persistentDataPath + "/save/";
-        Load();
     }
 
     private void Start()
     {
+        Load();
         Timer timer = Timer.CreateTimer();
         timer.StartTiming(60, Save, true);
     }

@@ -7,7 +7,7 @@ public class UI_BagPanel : MonoBehaviour
 
     public GameObject ItemObj;
 
-    private readonly List<item> ItemData = GameDataManager.PlayerData.ItemData;
+    private readonly List<Item> ItemData = GameDataManager.PlayerData.ItemData;
     //private Itemdatas Itemdatas = GameDataManager.PlayerData.ItemDatas;
     private UI_ListItem UI_ListItem;
 

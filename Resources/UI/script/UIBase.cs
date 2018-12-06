@@ -4,13 +4,13 @@ using UnityEngine.UI;
 
 public class UIBase : MonoBehaviour
 {
-    //public GameObject UIGamePanel;
-    //public GameObject UIBagPanel;
     public static GameObject UI_GamePanel;
     public static GameObject UI_BagPanel;
 
 
-    private static Dictionary<string, string> UIObjAndClone = new Dictionary<string, string>();
+    private static Dictionary<string, string> UIObjAndClone = new Dictionary<string, string>() {
+        { "UI_StartPanel","UI_StartPanel" }
+    };
     public GameObject UIRoot;
 
     private static GameObject _UIRoot;
@@ -19,8 +19,6 @@ public class UIBase : MonoBehaviour
     {
         UI_GamePanel = Resources.Load("UI\\prefab\\UI_GamePanel") as GameObject;
         UI_BagPanel = Resources.Load("UI\\prefab\\UI_BagPanel") as GameObject;
-        //UI_GamePanel = UIGamePanel;
-        //UI_BagPanel = Resources.Load("UI\\prefab\\UI_BagPanel") as GameObject;
         _UIRoot = UIRoot;
     }
 

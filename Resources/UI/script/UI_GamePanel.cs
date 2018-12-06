@@ -30,7 +30,6 @@ public class UI_GamePanel : MonoBehaviour
         //背包按钮事件（打开背包界面）
         BagBtn.onClick.AddListener(delegate ()
         {
-            //UIBase.OpenUI(UIBase.UI_BagPanel);
             UIBase.OpenUI(UIBase.UI_BagPanel);
         });
 
@@ -49,20 +48,32 @@ public class UI_GamePanel : MonoBehaviour
     }
     void SetLevelText(int level)
     {
-        LevelText.text = "Lv."+ GameDataManager.PlayerData.Level.ToString();
+        LevelText.text = "Lv."+ level.ToString();
     }
-    void SetPlayerAttrText(int attack,int blood)
+    void SetPlayerAttrText(PlayerAttr playerAttr)
     {
-        AttText.text = attack.ToString();
-        bloodText.text = blood.ToString();
+        AttText.text = playerAttr.Attack.ToString();
+        bloodText.text = playerAttr.Blood.ToString();
     }
 
     public void Init()
     {
         PlayerData = GameDataManager.PlayerData;
-        GenerateMap.OnMapChanged += SetMapNameText;
-        PlayerData.OnLevelChanged += SetLevelText;
+        GameEvent.OnMapChanged += SetMapNameText;
+        GameEvent.OnAttrChanged += SetPlayerAttrText;
+        GameEvent.OnLevelChanged += SetLevelText;
 
+        SetMapNameText(GenerateMap.CurrentMapId);
+        SetPlayerAttrText(playerAttr:PlayerData.Attr);
+        SetLevelText(PlayerData.Level);
+    }
+
+    private void OnDestroy()
+    {
+        PlayerData = GameDataManager.PlayerData;
+        GameEvent.OnMapChanged -= SetMapNameText;
+        GameEvent.OnAttrChanged -= SetPlayerAttrText;
+        GameEvent.OnLevelChanged -= SetLevelText;
     }
 
 }

@@ -46,7 +46,7 @@ public class BrickRoot : MonoBehaviour
 
     private BrickState currentState;    //砖块当前显示状态
 
-    void Init()
+    public void Init()
     {
         SetBrickState(BrickState.initial);
         GenMonster();
@@ -82,15 +82,6 @@ public class BrickRoot : MonoBehaviour
                 break;
         }
     }
-
-    
-
-    private void RefreshMonsterInfo()
-    {
-        bloodText.text = MonsterCurrentBlood.ToString();
-    }
-
-
     //设置砖块显示状态
     void SetBrickState(BrickState brickState)
     {
@@ -132,8 +123,8 @@ public class BrickRoot : MonoBehaviour
     void AttackMonster()
     {
         PlayerData playerData = GameDataManager.PlayerData;
-        MonsterCurrentBlood -= playerData.Attack;
-        playerData.Blood -= MonsterCurrentAttack;
+        MonsterCurrentBlood -= playerData.Attr.Attack;
+        playerData.Attr.Blood -= MonsterCurrentAttack;
 
     }
 
@@ -171,10 +162,15 @@ public class BrickRoot : MonoBehaviour
             bloodText.text = NPC_Info.Blood.ToString();
             MonsterCurrentBlood = NPC_Info.Blood;
             MonsterCurrentAttack = NPC_Info.Attack;
+            //生成装备
+            GenEquip();
             return true;
         }
         return false;
     }
 
+    private void GenEquip()
+    {
 
+    }
 }
