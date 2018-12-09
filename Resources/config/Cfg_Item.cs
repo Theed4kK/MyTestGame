@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 public class Cfg_Item
 {
@@ -12,5 +13,9 @@ public class Cfg_Item
     public static Cfg_Item GetCfg(int index)
     {
         return IdList[index];
+    }
+    public static List<Cfg_Item> GetAllCfg()
+    {
+        return IdList.Values.ToList();
     }
 }

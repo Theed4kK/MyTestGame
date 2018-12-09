@@ -8,19 +8,19 @@ public class UI_BagPanel : MonoBehaviour
     public GameObject ItemObj;
 
     private readonly List<Item> ItemData = GameDataManager.PlayerData.ItemData;
-    //private Itemdatas Itemdatas = GameDataManager.PlayerData.ItemDatas;
     private UI_ListItem UI_ListItem;
 
-
-
-    private void Start()
+    private void OnEnable()
     {
         SetItemList();
+
     }
+
+
 
     private void SetItemList()
     {
-        foreach (var item in ItemData)
+        foreach (Item item in ItemData)
         {
             UI_ListItem = UIBase.InitListItem(ItemObj);
             UI_ListItem.Objs[0].SetActive(true);

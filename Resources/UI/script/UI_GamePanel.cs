@@ -23,7 +23,7 @@ public class UI_GamePanel : MonoBehaviour
     private PlayerData PlayerData;
 
     // Use this for initialization
-    void Start()
+    void OnEnable()
     {
         Init();
 
@@ -56,12 +56,22 @@ public class UI_GamePanel : MonoBehaviour
         bloodText.text = playerAttr.Blood.ToString();
     }
 
-    public void Init()
+    void ReturnChapterPanel()
+    {
+        UIBase.CloseUI(gameObject);
+        UIBase.OpenUI(UIBase.UI_ChapterPanel);
+    }
+
+    /// <summary>
+    /// 初始化界面，并且绑定事件
+    /// </summary>
+    void Init()
     {
         PlayerData = GameDataManager.PlayerData;
         GameEvent.OnMapChanged += SetMapNameText;
         GameEvent.OnAttrChanged += SetPlayerAttrText;
         GameEvent.OnLevelChanged += SetLevelText;
+        GameEvent.OnExitMap += ReturnChapterPanel;
 
         SetMapNameText(GenerateMap.CurrentMapId);
         SetPlayerAttrText(playerAttr:PlayerData.Attr);
@@ -74,6 +84,7 @@ public class UI_GamePanel : MonoBehaviour
         GameEvent.OnMapChanged -= SetMapNameText;
         GameEvent.OnAttrChanged -= SetPlayerAttrText;
         GameEvent.OnLevelChanged -= SetLevelText;
+        GameEvent.OnExitMap -= ReturnChapterPanel;
     }
 
 }

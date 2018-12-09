@@ -4,8 +4,10 @@ using UnityEngine.UI;
 
 public class UIBase : MonoBehaviour
 {
+    public static GameObject UI_StartPanel;
     public static GameObject UI_GamePanel;
     public static GameObject UI_BagPanel;
+    public static GameObject UI_ChapterPanel;
 
 
     private static Dictionary<string, string> UIObjAndClone = new Dictionary<string, string>() {
@@ -17,8 +19,10 @@ public class UIBase : MonoBehaviour
 
     private void Awake()
     {
+        UI_StartPanel = Resources.Load("UI\\prefab\\UI_StartPanel") as GameObject;
         UI_GamePanel = Resources.Load("UI\\prefab\\UI_GamePanel") as GameObject;
         UI_BagPanel = Resources.Load("UI\\prefab\\UI_BagPanel") as GameObject;
+        UI_ChapterPanel = Resources.Load("UI\\prefab\\UI_ChapterPanel") as GameObject;
         _UIRoot = UIRoot;
     }
 
@@ -47,6 +51,10 @@ public class UIBase : MonoBehaviour
         if (UIObjAndClone.ContainsKey(uiobj.name))
         {
             _UIRoot.transform.Find(UIObjAndClone[uiobj.name]).gameObject.SetActive(false);
+        }
+        if (UIObjAndClone.ContainsValue(uiobj.name))
+        {
+            _UIRoot.transform.Find(uiobj.name).gameObject.SetActive(false);
         }
     }
 
@@ -83,6 +91,29 @@ public class UIBase : MonoBehaviour
         gameObject.SetActive(true);
         UI_ListItem uI_ListItem = gameObject.GetComponent<UI_ListItem>();
         return uI_ListItem;
+    }
+
+    public static void SetList()
+    {
+
+    }
+    /// <summary>
+    /// 重置列表的X或Y
+    /// </summary>
+    /// <param name="gameObject"></param>
+    /// <param name="XorY">为0是重置X，为1是重置Y</param>
+    public static void ResetListPos(GameObject gameObject,int XorY = 0)
+    {
+        RectTransform rect = gameObject.transform.parent.GetComponent<RectTransform>();
+        switch (XorY)
+        {
+            case 0:
+                rect.position -= new Vector3(rect.position.x, 0,0);
+                break;
+            case 1:
+                rect.position -= new Vector3(0, rect.position.y,0);
+                break;
+        }
     }
 }
 

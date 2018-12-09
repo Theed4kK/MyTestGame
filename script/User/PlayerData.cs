@@ -36,6 +36,12 @@ public class PlayerData
         Attr.Blood += levelCfg.AddBlood;
     }
 
+    private List<int> alreadyPass = new List<int>() { 0};
+    public List<int> AlreadyPass
+    {
+        get { return alreadyPass; }
+        set { alreadyPass = value; }
+    }
 
 
     private int exp = 0;//当前经验

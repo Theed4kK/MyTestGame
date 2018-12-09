@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 public class Cfg_Level
 {
@@ -28,5 +29,9 @@ public class Cfg_Level
     public static Cfg_Level GetCfg(int index)
     {
         return IdList[index];
+    }
+    public static List<Cfg_Level> GetAllCfg()
+    {
+        return IdList.Values.ToList();
     }
 }

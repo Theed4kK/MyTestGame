@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class BrickRoot : MonoBehaviour
 {
@@ -46,18 +47,12 @@ public class BrickRoot : MonoBehaviour
 
     private BrickState currentState;    //砖块当前显示状态
 
-    public void Init()
-    {
-        SetBrickState(BrickState.initial);
-        GenMonster();
-    }
-
-    private void OnMouseUp()
+    public void BeClicked()
     {
         switch (currentState)
         {
             case BrickState.initial:
-                if (NPC_Info!=null) SetBrickState(BrickState.monster); else SetBrickState(BrickState.Empty);
+                if (NPC_Info != null) SetBrickState(BrickState.monster); else SetBrickState(BrickState.Empty);
                 break;
             case BrickState.monster:
                 InteractiveWithNpc();       //与NPC交互（对话、攻击或其他）
@@ -68,6 +63,16 @@ public class BrickRoot : MonoBehaviour
                 break;
         }
     }
+    
+
+public void Init()
+    {
+        SetBrickState(BrickState.initial);
+        GenMonster();
+    }
+
+
+
 
     void InteractiveWithNpc()
     {
@@ -125,7 +130,7 @@ public class BrickRoot : MonoBehaviour
         PlayerData playerData = GameDataManager.PlayerData;
         MonsterCurrentBlood -= playerData.Attr.Attack;
         playerData.Attr.Blood -= MonsterCurrentAttack;
-        if(playerData.Attr.Blood <=0)
+        if (playerData.Attr.Blood <= 0)
         {
             playerData.Attr.Blood = 0;
             GenerateMap.CurrentMapId = 0;
@@ -136,41 +141,35 @@ public class BrickRoot : MonoBehaviour
     //砖块生成怪物
     bool GenMonster()
     {
-        Cfg_Map MapCfg = Cfg_Map.GetCfg(GenerateMap.CurrentMapId);
-        int MonsterId1 = MapCfg.MonsterId_01;        //怪物1ID
-        int Monster1_pro = MapCfg.MonsterWeight_01;  //怪物1出现权重
-        int MonsterId2 = MapCfg.MonsterId_02;        //怪物2ID
-        int Monster2_pro = MapCfg.MonsterWeight_02;  //怪物2出现权重
-        int Monster_Pro = Monster1_pro + Monster2_pro;              //权重总和
-        int MaxGenMonNum = MapCfg.MaxMonsterNum;     //最大生成怪物数量
+        //Cfg_Map MapCfg = Cfg_Map.GetCfg(GenerateMap.CurrentMapId);
 
-        //如果已生成怪物数量未达到地图最大怪物数量且本次生成概率判断通过
-        if (GenerateMap.AlreadyGenNum < MaxGenMonNum && COMMON.RandomIsSuccess(COMMON.GenMonsterPro, 10000))
-        {
-            //地图生成怪物数量+1
-            GenerateMap.AlreadyGenNum += 1;
-            //该砖块有怪物
-            if (COMMON.RandomIsSuccess(Monster1_pro, Monster_Pro))
-            {
-                currentMonsterId = MonsterId1;
-            }
-            else
-            {
-                currentMonsterId = MonsterId2;
-            }
-            NPC_Info = Cfg_NPC.GetCfg(currentMonsterId);
-            //设置怪物图片
-            string monsterAsset = COMMON.MonsterIconPath + NPC_Info.AssetName;
-            COMMON.SetSprite(modelIcon, monsterAsset);
-            modelIcon.material = COMMON.spriteMaterials[NPC_Info.Color];
-            //设置怪物血量和攻击
-            bloodText.text = NPC_Info.Blood.ToString();
-            MonsterCurrentBlood = NPC_Info.Blood;
-            MonsterCurrentAttack = NPC_Info.Attack;
-            //生成装备
-            GenEquip();
-            return true;
-        }
+        ////如果已生成怪物数量未达到地图最大怪物数量且本次生成概率判断通过
+        //if (GenerateMap.AlreadyGenNum < MaxGenMonNum && COMMON.RandomIsSuccess(COMMON.GenMonsterPro, 10000))
+        //{
+        //    //地图生成怪物数量+1
+        //    GenerateMap.AlreadyGenNum += 1;
+        //    //该砖块有怪物
+        //    if (COMMON.RandomIsSuccess(Monster1_pro, Monster_Pro))
+        //    {
+        //        currentMonsterId = MonsterId1;
+        //    }
+        //    else
+        //    {
+        //        currentMonsterId = MonsterId2;
+        //    }
+        //    NPC_Info = Cfg_NPC.GetCfg(currentMonsterId);
+        //    //设置怪物图片
+        //    string monsterAsset = COMMON.MonsterIconPath + NPC_Info.AssetName;
+        //    COMMON.SetSprite(modelIcon, monsterAsset);
+        //    modelIcon.material = COMMON.spriteMaterials[NPC_Info.Color];
+        //    //设置怪物血量和攻击
+        //    bloodText.text = NPC_Info.Blood.ToString();
+        //    MonsterCurrentBlood = NPC_Info.Blood;
+        //    MonsterCurrentAttack = NPC_Info.Attack;
+        //    //生成装备
+        //    GenEquip();
+        //    return true;
+        //}
         return false;
     }
 

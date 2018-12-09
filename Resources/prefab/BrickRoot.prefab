@@ -52,9 +52,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4657912364914532}
-  - component: {fileID: 61436626338484534}
   - component: {fileID: 212802593626251062}
   - component: {fileID: 114936692304475698}
+  - component: {fileID: 65691034361079742}
   m_Layer: 0
   m_Name: BrickRoot
   m_TagString: Untagged
@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 4574696621052802}
   - component: {fileID: 23596823058250502}
   - component: {fileID: 102888747819216834}
+  - component: {fileID: 114783150541196810}
   m_Layer: 0
   m_Name: bloodText
   m_TagString: Untagged
@@ -354,31 +355,18 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!61 &61436626338484534
-BoxCollider2D:
+--- !u!65 &65691034361079742
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1434913262185228}
-  m_Enabled: 1
-  m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_IsTrigger: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Size: {x: 1, y: 1, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &95887790645823126
 Animator:
   serializedVersion: 3
@@ -439,6 +427,17 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
+--- !u!114 &114783150541196810
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1822554862580604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1849938685, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114936692304475698
 MonoBehaviour:
   m_ObjectHideFlags: 1
