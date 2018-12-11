@@ -3,6 +3,8 @@ public delegate void expChanged(int exp);
 public delegate void AttrChanged(PlayerAttr attr);
 public delegate void MapChanged(int mapId);
 public delegate void ExitMap();
+public delegate void MonsterAttrChanged(MonsterAttr monsterAttr);
+public delegate void PlayerDie();
 
 public class GameEvent
 {
@@ -55,11 +57,32 @@ public class GameEvent
     //事件触发函数
     public static void _OnExitMap()
     {
-        if (OnMapChanged != null)
+        if (OnExitMap != null)
         {
             OnExitMap();
         }
     }
 
+    //当前所在地图改变事件
+    public static event MonsterAttrChanged OnMonsterAttrChanged;
+    //事件触发函数
+    public static void _OnMonsterAttrChanged(MonsterAttr monsterAttr)
+    {
+        if (OnMonsterAttrChanged != null)
+        {
+            OnMonsterAttrChanged(monsterAttr);
+        }
+    }
+
+    //当前所在地图改变事件
+    public static event PlayerDie OnPlayerDie;
+    //事件触发函数
+    public static void _OnPlayerDie( )
+    {
+        if (OnPlayerDie != null)
+        {
+            OnPlayerDie();
+        }
+    }
 }
 

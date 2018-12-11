@@ -12,11 +12,6 @@ public class GenerateMap : MonoBehaviour
     public int Rows = 6;
     public int Columns = 8;
 
-    // Use this for initialization
-
-
-    public static int AlreadyGenNum;    //当前地图已生成的怪物数量
-
     private static int currentMapId = 0;
     /// <summary>
     /// 当前地图ID,为0时自动退出地图
@@ -37,7 +32,6 @@ public class GenerateMap : MonoBehaviour
 
     void Awake()
     {
-        if (CurrentMapId == 0) { ExitMap(); }
         GameEvent.OnMapChanged += GenMap;
         GameEvent.OnExitMap += ExitMap;
     }
@@ -45,13 +39,15 @@ public class GenerateMap : MonoBehaviour
     void ExitMap()
     {
         transform.parent.gameObject.SetActive(false);
+        UIBase.CloseUI(UIBase.UI_GamePanel);
+        UIBase.OpenUI(UIBase.UI_ChapterPanel);
     }
 
     public void GenMap(int MapId)
     {
         transform.parent.gameObject.SetActive(true);
-        //生成地图时重置当前地图已生成怪物数量
-        AlreadyGenNum = 0;
+        UIBase.OpenUI(UIBase.UI_GamePanel);
+        List<BrickRoot> brickList = new List<BrickRoot>();
         //清除已存在的砖块
         for (int i = 0; i < transform.childCount; i++)
         {
@@ -67,9 +63,11 @@ public class GenerateMap : MonoBehaviour
                 _mBrickBoot = Instantiate(BrickRootObj, transform);
                 _mBrickBoot.transform.localPosition = BasePos.localPosition + new Vector3(row * distanceX, column * distanceY, 0);
                 BrickRoot brickRoot = _mBrickBoot.GetComponent<BrickRoot>();
-                brickRoot.Init();
+                brickList.Add(brickRoot);
             }
         }
+        //生成怪物和装备
+        Monster.MapGenMonster(brickList, MapId);
     }
 
 

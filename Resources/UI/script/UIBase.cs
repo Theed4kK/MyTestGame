@@ -8,6 +8,7 @@ public class UIBase : MonoBehaviour
     public static GameObject UI_GamePanel;
     public static GameObject UI_BagPanel;
     public static GameObject UI_ChapterPanel;
+    public static GameObject UI_TipsPanel;
 
 
     private static Dictionary<string, string> UIObjAndClone = new Dictionary<string, string>() {
@@ -23,21 +24,29 @@ public class UIBase : MonoBehaviour
         UI_GamePanel = Resources.Load("UI\\prefab\\UI_GamePanel") as GameObject;
         UI_BagPanel = Resources.Load("UI\\prefab\\UI_BagPanel") as GameObject;
         UI_ChapterPanel = Resources.Load("UI\\prefab\\UI_ChapterPanel") as GameObject;
+        UI_TipsPanel = Resources.Load("UI\\prefab\\UI_TipsPanel") as GameObject;
         _UIRoot = UIRoot;
     }
 
-    public static void OpenUI(GameObject uiobj)
+    public static GameObject OpenUI(GameObject uiobj)
     {
+        if(uiobj == null)
+        {
+            Debug.Log("试图打开一个空UI");
+            return null;
+        }
         if (UIObjAndClone.ContainsKey(uiobj.name))
         {
             GameObject obj = _UIRoot.transform.Find(UIObjAndClone[uiobj.name]).gameObject;
             obj.transform.SetAsLastSibling();
             obj.SetActive(true);
+            return obj;
         }
         else
         {
             var _obj = Instantiate(uiobj, _UIRoot.transform);
             UIObjAndClone.Add(uiobj.name, _obj.name);
+            return _obj;
         }
     }
 
@@ -48,6 +57,8 @@ public class UIBase : MonoBehaviour
     /// <param name="uiobj">要关闭的界面</param>
     public static void CloseUI(GameObject uiobj)
     {
+            
+        if(uiobj == null) { Debug.Log("试图关闭一个不存在的UI"); return; }
         if (UIObjAndClone.ContainsKey(uiobj.name))
         {
             _UIRoot.transform.Find(UIObjAndClone[uiobj.name]).gameObject.SetActive(false);
@@ -104,17 +115,33 @@ public class UIBase : MonoBehaviour
     /// <param name="XorY">为0是重置X，为1是重置Y</param>
     public static void ResetListPos(GameObject gameObject,int XorY = 0)
     {
-        RectTransform rect = gameObject.transform.parent.GetComponent<RectTransform>();
+        Transform transform = gameObject.transform.parent;
         switch (XorY)
         {
             case 0:
-                rect.position -= new Vector3(rect.position.x, 0,0);
+                transform.localPosition -= new Vector3(transform.localPosition.x, 0,0);
                 break;
             case 1:
-                rect.position -= new Vector3(0, rect.position.y,0);
+                transform.localPosition -= new Vector3(0, transform.localPosition.y, 0);
                 break;
         }
     }
+
+    public static void Addtips(string tips)
+    {
+        GameObject obj =  OpenUI(UI_TipsPanel);
+        UI_TipsPanel tipsPanel = obj.GetComponent<UI_TipsPanel>();
+        tipsPanel.AddTips(tips);
+    }
+}
+
+public enum UI
+{
+    UI_StartPanel,
+    UI_GamePanel,
+    UI_BagPanel,
+    UI_ChapterPanel,
+    UI_TipsPanel
 }
 
 

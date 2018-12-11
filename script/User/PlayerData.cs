@@ -36,7 +36,7 @@ public class PlayerData
         Attr.Blood += levelCfg.AddBlood;
     }
 
-    private List<int> alreadyPass = new List<int>() { 0};
+    private List<int> alreadyPass = new List<int>() { 0 };
     public List<int> AlreadyPass
     {
         get { return alreadyPass; }
@@ -113,19 +113,44 @@ public class PlayerAttr
     public int Attack
     {
         get { return attack; }
-        set { if (attack != value) { attack = value; } GameEvent._OnAttrChanged(this); }
+        set
+        {
+            if (attack != value)
+            {
+                attack = value;
+                GameEvent._OnAttrChanged(this);
+            }
+        }
     }
     private int defense = 0;
     public int Defense
     {
         get { return defense; }
-        set { if (defense != value) { defense = value; } GameEvent._OnAttrChanged(this); }
+        set
+        {
+            if (defense != value)
+            {
+                defense = value;
+                GameEvent._OnAttrChanged(this);
+            }
+        }
     }
     private int blood;
     public int Blood
     {
         get { return blood; }
-        set { if (blood != value) { blood = value; } GameEvent._OnAttrChanged(this); }
+        set
+        {
+            if (blood != value)
+            {
+                blood = value;
+                GameEvent._OnAttrChanged(this);
+                if(value <= 0)
+                {
+                    GameEvent._OnPlayerDie();
+                }
+            }
+        }
     }
 
 

@@ -11,10 +11,10 @@ public static class COMMON
     public static string ChapterIconPath = "texture/ChapterIcon/";      //章节图片
 
     //图片发光材质
-    public static Material spriteMaterial_g = Resources.Load("Material/SpriteOutterGlow_green") as Material;
-    public static Material spriteMaterial_b = Resources.Load("Material/SpriteOutterGlow_blue") as Material;
-    public static Material spriteMaterial_p = Resources.Load("Material/SpriteOutterGlow_purple") as Material;
-    public static Material spriteMaterial_o = Resources.Load("Material/SpriteOutterGlow_orange") as Material;
+    private static Material spriteMaterial_g = Resources.Load("Material/SpriteOutterGlow_green") as Material;
+    private static Material spriteMaterial_b = Resources.Load("Material/SpriteOutterGlow_blue") as Material;
+    private static Material spriteMaterial_p = Resources.Load("Material/SpriteOutterGlow_purple") as Material;
+    private static Material spriteMaterial_o = Resources.Load("Material/SpriteOutterGlow_orange") as Material;
 
     public static Material[] spriteMaterials = { spriteMaterial_g, spriteMaterial_b, spriteMaterial_p, spriteMaterial_o };
 
@@ -74,8 +74,17 @@ public static class COMMON
             image.material = null;
         }
     }
-}
 
-public enum Color
-{
+
+    public static List<T> RandomSortList<T>(List<T> ListT)
+    {
+        List<T> newList = new List<T>();
+        foreach (T item in ListT)
+        {
+            newList.Insert(Random.Range(0, newList.Count), item);
+        }
+        return newList;
+
+    }
+
 }

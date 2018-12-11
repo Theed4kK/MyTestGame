@@ -46,6 +46,11 @@ public class UI_ChapterPanel : MonoBehaviour
             }
             UI_ListItem.btns[0].onClick.AddListener(delegate ()
             {
+                if (!AlreadyPass.Contains(item.NeedMap))
+                {
+                    UIBase.Addtips("请先通关上一章节！");
+                    return;
+                }
                 OpenMapList(item.StartMap);
                 MapList_ChapterName.text = item.Name;
             });
@@ -61,19 +66,32 @@ public class UI_ChapterPanel : MonoBehaviour
 
     private void SetMapList(int startMap)
     {
-        bool lastMapIsPass = true;
-        UIBase.ResetListPos(MapListObj,1);
+        List<int> mapList = new List<int>() { startMap };
         for (int i = 0; i < 100; i++)
         {
+            int nextMap = Cfg_Map.GetCfg(startMap).NextMap;
+            if (nextMap != 0)
+            {
+                mapList.Add(nextMap);
+                startMap = nextMap;
+            }
+            else
+            {
+                break;
+            }
+        }
+        bool lastMapIsPass = true;
+        foreach (var map in mapList)
+        {
             UI_ListItem = UIBase.InitListItem(MapListObj);
-            UI_ListItem.Texts[0].text = Cfg_Map.GetCfg(startMap).Name;
-            UI_ListItem.Texts[1].text = Cfg_Map.GetCfg(startMap).Des;
-            bool IsPass = AlreadyPass.Contains(startMap);
+            UI_ListItem.Texts[0].text = Cfg_Map.GetCfg(map).Name;
+            UI_ListItem.Texts[1].text = Cfg_Map.GetCfg(map).Des;
+            bool IsPass = AlreadyPass.Contains(map);
             UI_ListItem.Objs[0].SetActive(!IsPass && lastMapIsPass);
-            UI_ListItem.Objs[1].SetActive(IsPass|| !lastMapIsPass);
+            UI_ListItem.Objs[1].SetActive(IsPass || !lastMapIsPass);
             if (IsPass && lastMapIsPass)
             {
-                UI_ListItem.Texts[2].text ="已通关";
+                UI_ListItem.Texts[2].text = "已通关";
             }
             else
             {
@@ -81,45 +99,43 @@ public class UI_ChapterPanel : MonoBehaviour
 
             }
             lastMapIsPass = IsPass;
-            UI_ListItem.btns[0].onClick.AddListener(delegate() {
-                GenerateMap.CurrentMapId = startMap;
+            UI_ListItem.btns[0].onClick.AddListener(delegate ()
+            {
+                gameObject.SetActive(false);
+                GenerateMap.CurrentMapId = map;
             });
-            SetMonsterList(startMap, UI_ListItem.Objs[2]);
-            int nextMap = Cfg_Map.GetCfg(startMap).NextMap;
-            if (nextMap != 0)
-            {
-                startMap = nextMap;
-            }
-            else
-            {
-                break;
-            }
+            SetMonsterList(map, UI_ListItem.Objs[2]);
 
         }
+        UIBase.ResetListPos(MapListObj, 1);
 
     }
 
-    private void SetMonsterList(int mapId,GameObject gameObject)
+    private void SetMonsterList(int mapId, GameObject gameObject)
     {
-        UIBase.ResetListPos(gameObject);
-        int genRuleId = Cfg_Map.GetCfg(mapId).GenMonsterRule;
+        int firstRuleId = Cfg_Map.GetCfg(mapId).GenMonsterRule;
+        List<int> genRuleList = new List<int>() { firstRuleId };
         for (int i = 0; i < 100; i++)
         {
-            Cfg_GenMon cfg_GenMon = Cfg_GenMon.GetCfg(genRuleId);
-            Cfg_NPC cfg_NPC = Cfg_NPC.GetCfg(cfg_GenMon.MonsterId);
-            UI_ListItem = UIBase.InitListItem(gameObject);
-            string Asset = COMMON.MonsterIconPath + cfg_NPC.AssetName;
-            UIBase.SetImageSpite(UI_ListItem.Images[0], Asset);
-            int nextRule = Cfg_GenMon.GetCfg(genRuleId).NextRule;
+            int nextRule = Cfg_GenMon.GetCfg(firstRuleId).NextRule;
             if (nextRule != 0)
             {
-                genRuleId = nextRule;
+                genRuleList.Add(nextRule);
+                firstRuleId = nextRule;
             }
             else
             {
                 break;
             }
-
         }
+        //foreach (var genRuleId in genRuleList)
+        //{
+        //    Cfg_GenMon cfg_GenMon = Cfg_GenMon.GetCfg(genRuleId);
+        //    Cfg_NPC cfg_NPC = Cfg_NPC.GetCfg(cfg_GenMon.MonsterId);
+        //    UI_ListItem = UIBase.InitListItem(gameObject);
+        //    string Asset = COMMON.MonsterIconPath + cfg_NPC.AssetName;
+        //    UIBase.SetImageSpite(UI_ListItem.Images[0], Asset);
+        //}
+        UIBase.ResetListPos(gameObject);
     }
 }

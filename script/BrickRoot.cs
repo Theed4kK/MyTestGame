@@ -6,53 +6,37 @@ using UnityEngine.EventSystems;
 
 public class BrickRoot : MonoBehaviour
 {
-
-    // Use this for initialization
-    public GameObject equip;
-    public GameObject monster;
-    public GameObject brick;
-    public TextMesh bloodText;
-    public TextMesh attackText;
-    public SpriteRenderer modelIcon;
+    public GameObject equip;    //装备节点
+    public GameObject equipItem;    //装备子节点
+    public GameObject monster;  //怪物节点
+    public GameObject brick;    //砖块表层节点
+    public TextMesh bloodText;  //怪物血量显示文本
+    public TextMesh attackText; //怪物攻击显示文本
+    public SpriteRenderer modelIcon;    //怪物模型sprite
 
     private Cfg_NPC NPC_Info;       //本砖块的怪物配置
-    int currentMonsterId;
-    int monsterCurrentBlood;    //本砖块怪物的当前血量
-    int MonsterCurrentBlood
-    {
-        get { return monsterCurrentBlood; }
-        set
-        {
-            if (value <= 0) monster.SetActive(false);
-            if (monsterCurrentBlood != value)
-            {
-                bloodText.text = value.ToString();
-            }
-            monsterCurrentBlood = value;
-        }
-    }
-    int monsterCurrentAttack;
-    int MonsterCurrentAttack    //本砖块怪物的当前血量
-    {
-        get { return monsterCurrentAttack; }
-        set
-        {
-            if (monsterCurrentAttack != value)
-            {
-                attackText.text = value.ToString();
-            }
-            monsterCurrentAttack = value;
-        }
-    }
+    private List<int> equipList;
+
+    private MonsterAttr monsterAttr;    //本砖块的怪物当前属性，用来战斗计算
 
     private BrickState currentState;    //砖块当前显示状态
 
+    /// <summary>
+    /// 点击砖块
+    /// </summary>
     public void BeClicked()
     {
         switch (currentState)
         {
             case BrickState.initial:
-                if (NPC_Info != null) SetBrickState(BrickState.monster); else SetBrickState(BrickState.Empty);
+                if (NPC_Info != null)
+                {
+                    SetBrickState(BrickState.monster);
+                }
+                else
+                {
+                    SetBrickState(BrickState.Empty);
+                }
                 break;
             case BrickState.monster:
                 InteractiveWithNpc();       //与NPC交互（对话、攻击或其他）
@@ -63,16 +47,11 @@ public class BrickRoot : MonoBehaviour
                 break;
         }
     }
-    
 
-public void Init()
+    private void OnEnable()
     {
         SetBrickState(BrickState.initial);
-        GenMonster();
     }
-
-
-
 
     void InteractiveWithNpc()
     {
@@ -116,7 +95,7 @@ public void Init()
         }
     }
 
-    //砖块显示状态
+    //砖块显示状态枚举
     public enum BrickState
     {
         initial,    ///初始
@@ -128,53 +107,89 @@ public void Init()
     void AttackMonster()
     {
         PlayerData playerData = GameDataManager.PlayerData;
-        MonsterCurrentBlood -= playerData.Attr.Attack;
-        playerData.Attr.Blood -= MonsterCurrentAttack;
-        if (playerData.Attr.Blood <= 0)
-        {
-            playerData.Attr.Blood = 0;
-            GenerateMap.CurrentMapId = 0;
-        }
-
+        Fight.FightWithMonster(monsterAttr);
     }
+
+    /// <summary>
+    /// 生成装备
+    /// </summary>
+    /// <param name="dropId">掉落ID</param>
+    public void GenEquip(int dropId)
+    {
+        Cfg_Drop cfg_Drop = Cfg_Drop.GetCfg(dropId);
+        int maxDropNum = cfg_Drop.MaxDrop;
+        int alreadyDrop = 0;
+        double dropNum = 0;
+        double dropPro;
+        List<int> itemList = new List<int>();
+        for (int i = 0; i < 100; i++)
+        {
+            if (alreadyDrop >= maxDropNum) { break; }
+            dropPro = cfg_Drop.DropPro / 10000;
+            dropNum = Math.Floor(dropPro);
+            for (int j = 0; j < dropNum; j++)
+            {
+                itemList.Add(cfg_Drop.DropItem);
+                alreadyDrop += 1;
+            }
+            if (COMMON.RandomIsSuccess(cfg_Drop.DropPro % 10000, 10000))
+            {
+                itemList.Add(cfg_Drop.DropItem);
+                alreadyDrop += 1;
+            }
+            if (cfg_Drop.NextDrop != 0)
+            {
+                cfg_Drop = Cfg_Drop.GetCfg(cfg_Drop.NextDrop);
+            }
+            else
+            {
+                break;
+            }
+        }
+        //生成道具物体
+        GenEquipItem(itemList);
+        equipList = itemList;
+    }
+
+    private void GenEquipItem(List<int> itemList)
+    {
+        foreach (var i in itemList)
+        {
+            Cfg_Item cfg_Item = Cfg_Item.GetCfg(i);
+            string AssetName = COMMON.ItemIconPath + cfg_Item.AssetName;
+            GameObject equip = Instantiate(equipItem, equipItem.transform.parent);
+            SpriteRenderer itemSprite = equip.GetComponent<SpriteRenderer>();
+            COMMON.SetSprite(itemSprite, AssetName);
+            itemSprite.material = COMMON.spriteMaterials[cfg_Item.Color];
+        }
+        equipItem.SetActive(false);
+    }
+
+
 
     //砖块生成怪物
-    bool GenMonster()
+    public void GenMonster(int monsterId)
     {
-        //Cfg_Map MapCfg = Cfg_Map.GetCfg(GenerateMap.CurrentMapId);
-
-        ////如果已生成怪物数量未达到地图最大怪物数量且本次生成概率判断通过
-        //if (GenerateMap.AlreadyGenNum < MaxGenMonNum && COMMON.RandomIsSuccess(COMMON.GenMonsterPro, 10000))
-        //{
-        //    //地图生成怪物数量+1
-        //    GenerateMap.AlreadyGenNum += 1;
-        //    //该砖块有怪物
-        //    if (COMMON.RandomIsSuccess(Monster1_pro, Monster_Pro))
-        //    {
-        //        currentMonsterId = MonsterId1;
-        //    }
-        //    else
-        //    {
-        //        currentMonsterId = MonsterId2;
-        //    }
-        //    NPC_Info = Cfg_NPC.GetCfg(currentMonsterId);
-        //    //设置怪物图片
-        //    string monsterAsset = COMMON.MonsterIconPath + NPC_Info.AssetName;
-        //    COMMON.SetSprite(modelIcon, monsterAsset);
-        //    modelIcon.material = COMMON.spriteMaterials[NPC_Info.Color];
-        //    //设置怪物血量和攻击
-        //    bloodText.text = NPC_Info.Blood.ToString();
-        //    MonsterCurrentBlood = NPC_Info.Blood;
-        //    MonsterCurrentAttack = NPC_Info.Attack;
-        //    //生成装备
-        //    GenEquip();
-        //    return true;
-        //}
-        return false;
+        NPC_Info = Cfg_NPC.GetCfg(monsterId);
+        GameEvent.OnMonsterAttrChanged += SetMonsterAttrShow;
+        monsterAttr = MonsterAttr.TransToAttr(NPC_Info);
+        //设置怪物图片和颜色
+        string monsterAsset = COMMON.MonsterIconPath + NPC_Info.AssetName;
+        COMMON.SetSprite(modelIcon, monsterAsset);
+        modelIcon.material = COMMON.spriteMaterials[NPC_Info.Color];
     }
 
-    private void GenEquip()
+    //设置怪物血量和攻击显示
+    void SetMonsterAttrShow(MonsterAttr monsterAttr)
     {
-
+        bloodText.text = monsterAttr.Blood.ToString();
+        attackText.text = monsterAttr.Attack.ToString();
     }
+
+    private void OnDisable()
+    {
+        GameEvent.OnMonsterAttrChanged -= SetMonsterAttrShow;
+    }
+
 }
+
