@@ -21,6 +21,8 @@ public class BrickRoot : MonoBehaviour
 
     private BrickState currentState;    //砖块当前显示状态
 
+    //readonly PlayerData playerData = GameDataManager.PlayerData;
+
     /// <summary>
     /// 点击砖块
     /// </summary>
@@ -106,7 +108,6 @@ public class BrickRoot : MonoBehaviour
 
     void AttackMonster()
     {
-        PlayerData playerData = GameDataManager.PlayerData;
         Fight.FightWithMonster(monsterAttr);
     }
 
@@ -171,8 +172,10 @@ public class BrickRoot : MonoBehaviour
     public void GenMonster(int monsterId)
     {
         NPC_Info = Cfg_NPC.GetCfg(monsterId);
-        GameEvent.OnMonsterAttrChanged += SetMonsterAttrShow;
-        monsterAttr = MonsterAttr.TransToAttr(NPC_Info);
+        monsterAttr = new MonsterAttr();
+        monsterAttr.GameEvent.OnMonsterAttrChanged += SetMonsterAttrShow;
+        monsterAttr.GameEvent.OnMonsterDie += MonsterDie;
+        MonsterAttr.TransToAttr(NPC_Info,ref monsterAttr);
         //设置怪物图片和颜色
         string monsterAsset = COMMON.MonsterIconPath + NPC_Info.AssetName;
         COMMON.SetSprite(modelIcon, monsterAsset);
@@ -186,9 +189,26 @@ public class BrickRoot : MonoBehaviour
         attackText.text = monsterAttr.Attack.ToString();
     }
 
-    private void OnDisable()
+    //private void OnDestroy()
+    //{
+    //    if (monsterAttr != null)
+    //    {
+    //        monsterAttr.GameEvent.OnMonsterDie -= MonsterDie;
+    //        monsterAttr.GameEvent.OnMonsterAttrChanged -= SetMonsterAttrShow;
+    //    }
+    //}
+
+    void MonsterDie()
     {
-        GameEvent.OnMonsterAttrChanged -= SetMonsterAttrShow;
+        if(NPC_Info.DropId != 0)
+        {
+            GenEquip(NPC_Info.DropId);
+            SetBrickState(BrickState.equip);
+        }
+        else
+        {
+            SetBrickState(BrickState.Empty);
+        }
     }
 
 }

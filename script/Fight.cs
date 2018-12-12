@@ -2,12 +2,10 @@
 {
     private static PlayerAttr PlayerAttr = GameDataManager.PlayerData.Attr;
 
-    public static MonsterAttr FightWithMonster(MonsterAttr monsterAttr)
+    public static void FightWithMonster(MonsterAttr monsterAttr)
     {
-        MonsterAttr newMonsterAttr = monsterAttr;
-        PlayerAttr.Blood = monsterAttr.Attack;
-        newMonsterAttr.Blood = PlayerAttr.Attack;
-        return newMonsterAttr;
+        PlayerAttr.Blood -= monsterAttr.Attack - PlayerAttr.Defense;
+        monsterAttr.Blood -= PlayerAttr.Attack - monsterAttr.Defense;
     }
 }
 

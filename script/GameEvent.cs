@@ -5,6 +5,7 @@ public delegate void MapChanged(int mapId);
 public delegate void ExitMap();
 public delegate void MonsterAttrChanged(MonsterAttr monsterAttr);
 public delegate void PlayerDie();
+public delegate void MonsterDie();
 
 public class GameEvent
 {
@@ -63,10 +64,10 @@ public class GameEvent
         }
     }
 
-    //当前所在地图改变事件
-    public static event MonsterAttrChanged OnMonsterAttrChanged;
+    //怪物属性变化
+    public event MonsterAttrChanged OnMonsterAttrChanged;
     //事件触发函数
-    public static void _OnMonsterAttrChanged(MonsterAttr monsterAttr)
+    public void _OnMonsterAttrChanged(MonsterAttr monsterAttr)
     {
         if (OnMonsterAttrChanged != null)
         {
@@ -74,14 +75,25 @@ public class GameEvent
         }
     }
 
-    //当前所在地图改变事件
+    //玩家死亡事件
     public static event PlayerDie OnPlayerDie;
     //事件触发函数
-    public static void _OnPlayerDie( )
+    public static void _OnPlayerDie()
     {
         if (OnPlayerDie != null)
         {
             OnPlayerDie();
+        }
+    }
+
+    //怪物死亡事件
+    public event MonsterDie OnMonsterDie;
+    //事件触发函数
+    public void _OnMonsterDie()
+    {
+        if (OnMonsterDie != null)
+        {
+            OnMonsterDie();
         }
     }
 }

@@ -8,13 +8,16 @@ public class UI_GamePanel : MonoBehaviour
 {
     [Header("图片")]
     public Image RoleIcon;
+    public Image RoleBg;
 
     [Header("文本信息")]
     public Text bloodText;
     public Text AttText;
     public Text LevelText;
     public Text MapNameText;
-
+    public Text SystemLvText;
+    public Text PlunderProValueText;
+    public Text SystemLvUpText;
 
     [Header("按钮")]
     public Button BagBtn;

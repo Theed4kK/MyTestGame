@@ -54,7 +54,7 @@ public class Monster : MonoBehaviour
                 bricks.RemoveAt(i);
             }
             brickNum -= 1;
-            if(dropList.Count == 0) { break; }
+            if (dropList.Count == 0) { break; }
         }
     }
 
@@ -69,7 +69,7 @@ public class Monster : MonoBehaviour
         //对砖块进行随机排序
         List<BrickRoot> bricks = COMMON.RandomSortList(brickRoots);
         int brickNum = brickRoots.Count;
-        for (int i=0;i< bricks.Count;i++)
+        for (int i = 0; i < bricks.Count; i++)
         {
             if (COMMON.RandomIsSuccess(monsters.Count, brickNum))
             {
@@ -78,7 +78,7 @@ public class Monster : MonoBehaviour
                 bricks.RemoveAt(i);
             }
             brickNum -= 1;
-            if(monsters.Count == 0) { break; }
+            if (monsters.Count == 0) { break; }
         }
         return bricks;
     }
@@ -87,27 +87,57 @@ public class Monster : MonoBehaviour
 
 public class MonsterAttr
 {
+    public GameEvent GameEvent = new GameEvent();
     private int attack = 0;
     public int Attack
     {
         get { return attack; }
-        set { if (attack != value) { attack = value; } GameEvent._OnMonsterAttrChanged(this); }
+        set
+        {
+            if (attack != value)
+            {
+                attack = value;
+                GameEvent._OnMonsterAttrChanged(this);
+            }
+        }
     }
 
     private int blood = 0;
     public int Blood
     {
         get { return blood; }
-        set { if (blood != value) { blood = value; } GameEvent._OnMonsterAttrChanged(this); }
+        set
+        {
+            if (blood != value)
+            {
+                blood = value;
+                if(blood <= 0)
+                {
+                    GameEvent._OnMonsterDie();
+                }
+                GameEvent._OnMonsterAttrChanged(this);
+            }
+        }
     }
 
-    public static MonsterAttr TransToAttr(Cfg_NPC cfg_NPC)
+    private int defense = 0;
+    public int Defense
     {
-        MonsterAttr monsterAttr = new MonsterAttr
+        get { return defense; }
+        set
         {
-            Attack = cfg_NPC.Attack,
-            Blood = cfg_NPC.Blood
-        };
-        return monsterAttr;
+            if (defense != value)
+            {
+                defense = value;
+                GameEvent._OnMonsterAttrChanged(this);
+            }
+        }
+    }
+
+    public static void TransToAttr(Cfg_NPC cfg_NPC,ref MonsterAttr monsterAttr)
+    {
+        monsterAttr.Attack = cfg_NPC.Attack;
+        monsterAttr.Blood = cfg_NPC.Blood;
+        monsterAttr.Defense = cfg_NPC.Defense;
     }
 }

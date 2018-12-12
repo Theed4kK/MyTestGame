@@ -34,6 +34,7 @@ public class PlayerData
         Cfg_Level levelCfg = Cfg_Level.GetCfg(level);
         Attr.Attack += levelCfg.AddAttack;
         Attr.Blood += levelCfg.AddBlood;
+        Attr.Defense += levelCfg.AddDefense;
     }
 
     private List<int> alreadyPass = new List<int>() { 0 };
@@ -152,7 +153,4 @@ public class PlayerAttr
             }
         }
     }
-
-
-
 }
