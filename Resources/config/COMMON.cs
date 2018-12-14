@@ -84,7 +84,29 @@ public static class COMMON
             newList.Insert(Random.Range(0, newList.Count), item);
         }
         return newList;
+    }
 
+    public static string SetStrColor(string str, int color)
+    {
+        string newStr;
+        string colorStr = "white";
+        switch (color)
+        {
+            case 0:
+                colorStr = "green";
+                break;
+            case 1:
+                colorStr = "blue";
+                break;
+            case 2:
+                colorStr = "purple";
+                break;
+            case 3:
+                colorStr = "gold";
+                break;
+        }
+        newStr = "<color=" + colorStr + ">" + str + "</color>";
+        return newStr;
     }
 
 }

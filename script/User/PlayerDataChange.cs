@@ -4,7 +4,7 @@ using System.Collections;
 
 public static class PlayerDataChange
 {
-    public static void GetItem(int itemId, int itemNum)
+    public static void GetItem(int itemId, int itemNum = 1)
     {
         List<Item> itemData = GameDataManager.PlayerData.ItemData;
         try

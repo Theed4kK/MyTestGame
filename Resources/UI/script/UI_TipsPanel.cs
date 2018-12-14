@@ -6,6 +6,7 @@ using UnityEngine;
 public class UI_TipsPanel : MonoBehaviour
 {
     public GameObject tipsObj;
+    public float DisappearTime = 2f;
 
     private UI_ListItem UI_ListItem;
 
@@ -13,7 +14,7 @@ public class UI_TipsPanel : MonoBehaviour
     {
         UI_ListItem = UIBase.InitListItem(tipsObj);
         UI_ListItem.Texts[0].text = tips;
-        Destroy(UI_ListItem.gameObject, 2);
+        Destroy(UI_ListItem.gameObject, DisappearTime);
     }
 
     private void OnEnable()
@@ -27,7 +28,7 @@ public class UI_TipsPanel : MonoBehaviour
             }
             else
             {
-                timer.StartTiming(2, delegate ()
+                timer.StartTiming(DisappearTime, delegate ()
                 {
                     gameObject.SetActive(false);
                 }, false, null, false, false);
@@ -36,7 +37,7 @@ public class UI_TipsPanel : MonoBehaviour
         else
         {
             timer = gameObject.AddComponent<Timer>();
-            timer.StartTiming(2, delegate ()
+            timer.StartTiming(DisappearTime, delegate ()
             {
                 gameObject.SetActive(false);
             }, false, null, false, false); 

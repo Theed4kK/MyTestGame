@@ -53,7 +53,7 @@ public class PlayerData
         {
             if (exp != value)
             {
-                exp = value;
+                exp = IfCanLevelUp(value);
                 GameEvent._OnExpChanged(value);
             }
         }

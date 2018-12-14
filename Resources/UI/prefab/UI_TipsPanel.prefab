@@ -254,6 +254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tipsObj: {fileID: 1422566194190924}
+  DisappearTime: 3
 --- !u!114 &114504053425549526
 MonoBehaviour:
   m_ObjectHideFlags: 1

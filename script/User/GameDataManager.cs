@@ -23,6 +23,11 @@ public class GameDataManager : MonoBehaviour
     private void Start()
     {
         Load();
+        TimedPreservation();//定时保存数据
+    }
+
+    private void TimedPreservation()
+    {
         Timer timer = Timer.CreateTimer();
         timer.StartTiming(60, Save, true);
     }

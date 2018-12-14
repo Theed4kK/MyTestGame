@@ -11,10 +11,13 @@ public class UI_GamePanel : MonoBehaviour
     public Image RoleBg;
 
     [Header("文本信息")]
-    public Text bloodText;
+    public Text BloodText;
     public Text AttText;
+    public Text DefenseText;
     public Text LevelText;
+    public Text ExpText;
     public Text MapNameText;
+    public Text ChapterNameText;
     public Text SystemLvText;
     public Text PlunderProValueText;
     public Text SystemLvUpText;
@@ -23,13 +26,15 @@ public class UI_GamePanel : MonoBehaviour
     public Button BagBtn;
     public Button NextDgnBtn;
 
-    private PlayerData PlayerData;
+    [Header("进度条")]
+    public Slider SystemExpSlider;
+    public Slider ExpSlider;
 
-    // Use this for initialization
-    void OnEnable()
+    private PlayerData PlayerData = GameDataManager.PlayerData;
+
+
+    private void Start()
     {
-        Init();
-
         //背包按钮事件（打开背包界面）
         BagBtn.onClick.AddListener(delegate ()
         {
@@ -37,6 +42,10 @@ public class UI_GamePanel : MonoBehaviour
         });
 
         NextDgnBtn.onClick.AddListener(GoNextMap);
+    }
+    void OnEnable()
+    {
+        Init();
     }
 
     void GoNextMap()
@@ -48,15 +57,23 @@ public class UI_GamePanel : MonoBehaviour
     {
         if (mapId == 0) return;
         MapNameText.text = Cfg_Map.GetCfg(mapId).Name;
+        int chapterId = Cfg_Map.GetCfg(mapId).ChapterId;
+        ChapterNameText.text = Cfg_Chapter.GetCfg(chapterId).Name;
     }
     void SetLevelText(int level)
     {
-        LevelText.text = "Lv."+ level.ToString();
+        LevelText.text = Cfg_Level.GetCfg(level).Name;
     }
     void SetPlayerAttrText(PlayerAttr playerAttr)
     {
         AttText.text = playerAttr.Attack.ToString();
-        bloodText.text = playerAttr.Blood.ToString();
+        BloodText.text = playerAttr.Blood.ToString();
+        DefenseText.text = playerAttr.Defense.ToString();
+    }
+    void SetExpSlider(int exp)
+    {
+        ExpText.text = exp.ToString() + "/" + Cfg_Level.GetCfg(PlayerData.Level).NeedExp;
+        ExpSlider.value = exp / Cfg_Level.GetCfg(PlayerData.Level).NeedExp;
     }
 
     void ReturnChapterPanel()
@@ -70,20 +87,19 @@ public class UI_GamePanel : MonoBehaviour
     /// </summary>
     void Init()
     {
-        PlayerData = GameDataManager.PlayerData;
         GameEvent.OnMapChanged += SetMapNameText;
         GameEvent.OnAttrChanged += SetPlayerAttrText;
         GameEvent.OnLevelChanged += SetLevelText;
         GameEvent.OnExitMap += ReturnChapterPanel;
+        GameEvent.OnExpChanged += SetExpSlider;
 
         SetMapNameText(GenerateMap.CurrentMapId);
-        SetPlayerAttrText(playerAttr:PlayerData.Attr);
+        SetPlayerAttrText(playerAttr: PlayerData.Attr);
         SetLevelText(PlayerData.Level);
     }
 
     private void OnDestroy()
     {
-        PlayerData = GameDataManager.PlayerData;
         GameEvent.OnMapChanged -= SetMapNameText;
         GameEvent.OnAttrChanged -= SetPlayerAttrText;
         GameEvent.OnLevelChanged -= SetLevelText;
