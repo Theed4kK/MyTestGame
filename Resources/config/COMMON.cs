@@ -18,7 +18,8 @@ public static class COMMON
 
     public static Material[] spriteMaterials = { spriteMaterial_g, spriteMaterial_b, spriteMaterial_p, spriteMaterial_o };
 
-    public static int GenMonsterPro = 3000;//每个砖块生成怪物的概率，万分比
+    public static int PracticeInterval = 10;//修炼间隔时间，影响获得经验的速度
+
 
     public static bool RandomIsSuccess(int molecule, int Denominator)
     {

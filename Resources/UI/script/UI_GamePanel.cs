@@ -16,6 +16,7 @@ public class UI_GamePanel : MonoBehaviour
     public Text DefenseText;
     public Text LevelText;
     public Text ExpText;
+    public Text AddExpText;
     public Text MapNameText;
     public Text ChapterNameText;
     public Text SystemLvText;
@@ -70,9 +71,17 @@ public class UI_GamePanel : MonoBehaviour
         BloodText.text = playerAttr.Blood.ToString();
         DefenseText.text = playerAttr.Defense.ToString();
     }
-    void SetExpSlider(int exp)
+    void SetExpSlider(float exp, float addExp = 0f)
     {
-        ExpText.text = exp.ToString() + "/" + Cfg_Level.GetCfg(PlayerData.Level).NeedExp;
+        GameObject obj = AddExpText.gameObject;
+        obj.SetActive(false);
+        if (addExp != 0)
+        {
+            GameObject _obj = Instantiate(obj, obj.transform.parent);
+            _obj.GetComponent<Text>().text = Mathf.FloorToInt(addExp).ToString("+#;-#;0");
+            _obj.SetActive(true);
+        }
+        ExpText.text = Mathf.Floor(exp).ToString() + "/" + Cfg_Level.GetCfg(PlayerData.Level).NeedExp;
         ExpSlider.value = exp / Cfg_Level.GetCfg(PlayerData.Level).NeedExp;
     }
 
@@ -92,6 +101,7 @@ public class UI_GamePanel : MonoBehaviour
         GameEvent.OnLevelChanged += SetLevelText;
         GameEvent.OnExitMap += ReturnChapterPanel;
         GameEvent.OnExpChanged += SetExpSlider;
+
 
         SetMapNameText(GenerateMap.CurrentMapId);
         SetPlayerAttrText(playerAttr: PlayerData.Attr);

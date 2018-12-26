@@ -1,5 +1,5 @@
 ﻿public delegate void LevelChange(int level);
-public delegate void expChanged(int exp);
+public delegate void expChanged(float exp,float addExp);
 public delegate void AttrChanged(PlayerAttr attr);
 public delegate void MapChanged(int mapId);
 public delegate void ExitMap();
@@ -23,11 +23,11 @@ public class GameEvent
     //经验改变事件
     public static event expChanged OnExpChanged;
     //事件触发函数
-    public static void _OnExpChanged(int exp)
+    public static void _OnExpChanged(float exp,float addExp)
     {
         if (OnExpChanged != null)
         {
-            OnExpChanged(exp);
+            OnExpChanged(exp, addExp);
         }
     }
 

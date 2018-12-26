@@ -156,16 +156,16 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: b2fe8442311b46749888a0cea82e2925, type: 3}
     m_FontSize: 30
     m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 3
-    m_MaxSize: 53
+    m_BestFit: 1
+    m_MinSize: 10
+    m_MaxSize: 30
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u901A\u5173\u5F90\u5DDE\u7AE0\u8282XXX\u5173\u53EF\u5F00\u542F"
+  m_Text: "\u901A\u5173\u5F90\u5DDE\u7AE0\u8282XXX\u5173\u901A\u5173\u5F90\u5DDE\u7AE0\u8282XXX\u5173"
 --- !u!114 &114021022276241272
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -178,15 +178,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.05660379, g: 0.05660379, b: 0.05660379, a: 0.61960787}
+  m_Color: {r: 0.28627452, g: 0.17254902, b: 0, a: 0.5882353}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4

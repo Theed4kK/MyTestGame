@@ -5,9 +5,9 @@ public class Cfg_NPC
 {
     public int Id;public int Camp;public int Lv;public string Name;public int Type;public int Color;public string Des;public int AppearOnStart;public int Dialog;public int Attack;public int Defense;public int Blood;public int DropId;public string AssetName;
     public static Dictionary<int,Cfg_NPC> IdList = new Dictionary<int,Cfg_NPC>() {
-        {1000,new Cfg_NPC() {Id=1000,Camp=1,Lv=1,Name="周瑜",Type=1,Color=1,Des="吴国大将",AppearOnStart=1,Dialog=1,Attack=1000,Defense=100,Blood=10000,DropId=100,AssetName="ZhouYu",}},
-        {1001,new Cfg_NPC() {Id=1001,Camp=1,Lv=2,Name="黄盖",Type=2,Color=2,Des="吴国大将",AppearOnStart=0,Dialog=0,Attack=1001,Defense=100,Blood=10010,DropId=200,AssetName="HuangGai",}},
-        {1002,new Cfg_NPC() {Id=1002,Camp=1,Lv=3,Name="甘宁",Type=2,Color=3,Des="吴国大将",AppearOnStart=0,Dialog=0,Attack=1002,Defense=100,Blood=10020,DropId=300,AssetName="GanNing",}},
+        {1000,new Cfg_NPC() {Id=1000,Camp=1,Lv=1,Name="苏天英",Type=1,Color=1,Des="主角之父，身为凉州牧，治下百姓安居乐业，自身也是一位强大的修行者。",AppearOnStart=1,Dialog=1,Attack=1000,Defense=100,Blood=10000,DropId=100,AssetName="ZhouYu",}},
+        {1001,new Cfg_NPC() {Id=1001,Camp=1,Lv=2,Name="苏通",Type=2,Color=2,Des="主角异母之弟，因不如主角讨父亲欢心，对主角各种项目嫉妒恨。",AppearOnStart=0,Dialog=0,Attack=1001,Defense=100,Blood=10010,DropId=200,AssetName="HuangGai",}},
+        {1002,new Cfg_NPC() {Id=1002,Camp=1,Lv=3,Name="祁丽",Type=2,Color=3,Des="主角之母，性格温和，对主角关怀备至。",AppearOnStart=0,Dialog=0,Attack=1002,Defense=100,Blood=10020,DropId=300,AssetName="GanNing",}},
         {1003,new Cfg_NPC() {Id=1003,Camp=1,Lv=4,Name="陆逊",Type=2,Color=3,Des="吴国大将",AppearOnStart=0,Dialog=0,Attack=1003,Defense=100,Blood=10030,DropId=400,AssetName="LuXun",}},
         {2000,new Cfg_NPC() {Id=2000,Camp=2,Lv=5,Name="赵云",Type=2,Color=3,Des="蜀国大将",AppearOnStart=0,Dialog=0,Attack=2000,Defense=100,Blood=20000,DropId=500,AssetName="ZhaoYun",}},
         {2001,new Cfg_NPC() {Id=2001,Camp=2,Lv=6,Name="诸葛亮",Type=2,Color=3,Des="蜀国大将",AppearOnStart=0,Dialog=0,Attack=2001,Defense=100,Blood=20010,DropId=600,AssetName="ZhuGeLiang",}},

@@ -5,12 +5,10 @@ using System.Collections.Generic;
 
 public class PlayerData
 {
-    //构造函数
-    public PlayerData()
-    {
-        GameEvent.OnLevelChanged += ChangePlayerAttrOfLevel;
-        if (Level == 0) Level = 1;
-    }
+
+    public bool IsStartPractice = false;    //是否已经开始修炼
+    public int Qualifications = 0;  //资质
+
 
     private int level = 0;//等级
     public int Level
@@ -45,21 +43,25 @@ public class PlayerData
     }
 
 
-    private int exp = 0;//当前经验
-    public int Exp
+    private float exp = 0;//当前经验
+    /// <summary>
+    /// 玩家当前经验
+    /// </summary>
+    public float Exp
     {
         get { return exp; }
         set
         {
             if (exp != value)
             {
+                float addexp = value - exp;
                 exp = IfCanLevelUp(value);
-                GameEvent._OnExpChanged(value);
+                GameEvent._OnExpChanged(value, addexp);
             }
         }
     }
 
-    private int IfCanLevelUp(int value)
+    private float IfCanLevelUp(float value)
     {
         Cfg_Level cfg_Level = Cfg_Level.GetCfg(Level);
         if (value >= cfg_Level.NeedExp)

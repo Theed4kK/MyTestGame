@@ -13,6 +13,7 @@ public class BrickRoot : MonoBehaviour
     public TextMeshPro attackText; //怪物攻击显示文本
     public TextMeshPro defenseText; //怪物防御显示文本
     public SpriteRenderer modelIcon;    //怪物模型sprite
+    public Animator MonsterAni;
 
     private Cfg_NPC NPC_Info;       //本砖块的怪物配置
     private List<int> equipList;
@@ -140,7 +141,7 @@ public class BrickRoot : MonoBehaviour
 
     void AttackMonster()
     {
-        Fight.FightWithMonster(monsterAttr);
+        Fight.FightWithMonster(monsterAttr,this);
     }
 
     /// <summary>
@@ -242,6 +243,7 @@ public class BrickRoot : MonoBehaviour
         {
             SetBrickState(BrickState.Empty);
         }
+        MonsterAni.SetTrigger("BeKilled");
     }
 
 }

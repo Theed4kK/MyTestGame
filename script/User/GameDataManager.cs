@@ -8,7 +8,7 @@ public class GameDataManager : MonoBehaviour
     private string fileName = "GameData";
     private string FileName
     {
-        get { return fileName + String.Format("{0:D3}", currentPlayerId); ; }
+        get { return fileName + string.Format("{0:D3}", currentPlayerId); }
     }
     private readonly bool isEncryption = false;
     public static PlayerData PlayerData = new PlayerData(); //当前使用的游戏数据
@@ -24,12 +24,27 @@ public class GameDataManager : MonoBehaviour
     {
         Load();
         TimedPreservation();//定时保存数据
+        PracticeAddExp();//修炼增加经验
+    }
+
+    private void PracticeAddExp()
+    {
+        Timer timer = Timer.CreateTimer("Practice");
+        int interval = COMMON.PracticeInterval;
+        timer.StartTiming(interval, delegate ()
+        {
+            if (PlayerData.IsStartPractice)
+            {
+                Cfg_Level cfg_Level = Cfg_Level.GetCfg(PlayerData.Level);
+                PlayerDataChange.AddExp(cfg_Level.AddExp);
+            }
+        }, true);  //每隔一段时间获得一次经验，需要先开启修炼，受资质影响
     }
 
     private void TimedPreservation()
     {
         Timer timer = Timer.CreateTimer();
-        timer.StartTiming(60, Save, true);
+        timer.StartTiming(60, Save, true);  //每60s保存一次数据
     }
 
     public void SwitchPlayer(int TargetId)
