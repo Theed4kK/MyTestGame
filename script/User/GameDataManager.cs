@@ -4,8 +4,8 @@ using UnityEngine;
 public class GameDataManager : MonoBehaviour
 {
     public static int currentPlayerId = 1;
+    private const string fileName = "GameData";
     private string Path;
-    private string fileName = "GameData";
     private string FileName
     {
         get { return fileName + string.Format("{0:D3}", currentPlayerId); }

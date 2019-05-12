@@ -6,6 +6,7 @@ public class UI_BagPanel : MonoBehaviour
 {
 
     public GameObject ItemObj;
+    public int DefaultNum;
 
     private readonly List<Item> ItemData = GameDataManager.PlayerData.ItemData;
     private UI_ListItem UI_ListItem;
@@ -28,7 +29,7 @@ public class UI_BagPanel : MonoBehaviour
             string Asset = COMMON.ItemIconPath + Cfg_Item.GetCfg(item.itemId).AssetName;
             UIBase.SetImageSpite(UI_ListItem.Images[0], Asset);
         }
-        for (int i = 0; i < 100 - ItemData.Count; i++)
+        for (int i = 0; i < Mathf.Max(ItemData.Count, DefaultNum - ItemData.Count); i++)
         {
             UI_ListItem = UIBase.InitListItem(ItemObj);
             UI_ListItem.Objs[0].SetActive(false);

@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-using System.Collections;
+﻿using System.Collections.Generic;
 
 public static class PlayerDataChange
 {
@@ -28,9 +26,11 @@ public static class PlayerDataChange
     /// 增加经验
     /// </summary>
     /// <param name="expNum">增加的经验数值</param>
-    public static void AddExp(int expNum)
+    /// <param name="AffectedByQualifications">是否受资质影响，可省略，默认受资质影响</param>
+    public static void AddExp(int expNum,bool AffectedByQualifications = true)
     {
+        float coefficient = AffectedByQualifications ? (GameDataManager.PlayerData.Qualifications / 10000) : 1;
         PlayerData playerData = GameDataManager.PlayerData;
-        playerData.Exp += expNum * (GameDataManager.PlayerData.Qualifications / 10000);//获得经验受资质影响
+        playerData.Exp += expNum * coefficient;//获得经验受资质影响
     }
 }

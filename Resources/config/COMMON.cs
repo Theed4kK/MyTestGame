@@ -20,18 +20,10 @@ public static class COMMON
 
     public static int PracticeInterval = 10;//修炼间隔时间，影响获得经验的速度
 
-
     public static bool RandomIsSuccess(int molecule, int Denominator)
     {
         int value = Random.Range(0, Denominator + 1);
-        if (value <= molecule)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return value <= molecule;
     }
 
     /// <summary>
